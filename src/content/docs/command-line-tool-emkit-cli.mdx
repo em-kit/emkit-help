@@ -1,0 +1,165 @@
+---
+title: EM Kit CLI
+description: Install and use the EM Kit Command Line Tool for local-first workflows.
+---
+
+The **EM Kit CLI** lets you query and update EM Kit data from your terminal.
+
+- Works with the EM Kit desktop app runtime.
+- If EM Kit is not running, the first CLI command launches it automatically.
+- Supports both one-shot commands and an interactive TUI.
+- Focuses on EM Kit local data (no GitHub CLI replacement).
+
+## Install from EM Kit desktop
+
+1. Open **Settings -> Command Line Tool**.
+2. Click **Install Command Line Tool**.
+3. Confirm the install location.
+
+On macOS, the default install directory is:
+
+```bash
+~/.emkit
+```
+
+The executable path is typically:
+
+```bash
+~/.emkit/emkit
+```
+
+## Add to PATH
+
+If you see `CLI install directory is not in PATH`, add the install directory to your shell PATH.
+
+### zsh (default on macOS)
+
+```bash
+echo 'export PATH="$HOME/.emkit:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+### bash
+
+```bash
+echo 'export PATH="$HOME/.emkit:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### fish
+
+```fish
+fish_add_path $HOME/.emkit
+```
+
+Verify:
+
+```bash
+which emkit
+emkit help
+```
+
+## Usage modes
+
+### One-shot commands
+
+```bash
+emkit doctor
+emkit workspace list
+emkit member list --workspace-id 1
+```
+
+### Interactive TUI
+
+```bash
+emkit
+# or
+emkit tui
+```
+
+TUI supports:
+
+- Tab autocomplete
+- Up/down history
+- `help` and `quit`
+
+## Common commands
+
+```bash
+emkit doctor
+emkit workspace list
+emkit workspace get --id 1
+emkit workspace create --name "Platform"
+emkit workspace update --id 1 --name "Platform Team"
+emkit workspace delete --id 1
+
+emkit member list --workspace-id 1
+emkit member get --id 2
+emkit member create --input '{"workspace_id":1,"name":"Jane Doe"}'
+emkit member update --id 2 --input '{"name":"Jane D."}'
+emkit member delete --id 2
+
+emkit evidence list --member-id 2
+emkit evidence get --id 10
+emkit evidence create --member-id 2 --input '{"title":"Incident leadership","description":"Led production recovery"}'
+emkit evidence delete --id 10
+emkit evidence clear --member-id 2 --source github
+
+emkit report history --workspace-id 1
+emkit report get --report-id 12
+emkit report delete --report-id 12
+
+emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
+emkit db exec --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
+```
+
+## JSON output
+
+CLI responses are JSON, which makes it easy to consume from scripts and AI agents.
+
+```json
+{
+  "ok": true,
+  "command": "workspace list",
+  "data": {
+    "items": [
+      { "id": 1, "name": "Platform" }
+    ]
+  }
+}
+```
+
+Use compact output when needed:
+
+```bash
+emkit workspace list --compact
+```
+
+## Troubleshooting
+
+### CLI install directory is still reported as not in PATH
+
+1. Make sure your shell config contains `$HOME/.emkit` (or your selected install directory).
+2. Open a **new terminal window** (or `source` your shell config).
+3. Check current PATH:
+
+```bash
+echo $PATH
+```
+
+4. Re-run **Refresh** in EM Kit Settings -> Command Line Tool.
+
+### Install directory is not writable
+
+Create the directory and set ownership:
+
+```bash
+mkdir -p ~/.emkit
+chown -R "$USER" ~/.emkit
+```
+
+Then install again from EM Kit Settings.
+
+### Development mode behavior
+
+If EM Kit is running via `npm run dev:electron`, the installed dev launcher can target your dev app runtime. Keep the dev app running while testing terminal commands.
