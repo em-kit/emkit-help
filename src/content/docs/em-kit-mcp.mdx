@@ -1,0 +1,164 @@
+---
+title: EM Kit MCP
+description: Connect Claude Code, Cursor, or Codex to EM Kit through the embedded MCP server.
+---
+
+`emkit mcp` starts a local **stdio MCP server** backed by the running EM Kit desktop app.
+
+This is the recommended setup if you want AI tools to fetch EM Kit data on demand instead of receiving a large prompt snapshot.
+
+## What the MCP server exposes
+
+The EM Kit MCP server currently exposes read-only tools for:
+
+- Listing workspaces
+- Getting a workspace summary
+- Listing team members
+- Listing manager tasks
+- Listing feedback to share
+- Listing daily notes
+- Listing work log entries
+- Getting the latest review period
+
+Because these tools are read-only, this setup is safer than exposing the full CLI or raw SQL commands to your agent.
+
+## Requirements
+
+Before configuring MCP:
+
+1. Install the EM Kit CLI from **Settings -> Command Line Tool**.
+2. Make sure `emkit` is available in your terminal `PATH`.
+3. Keep the EM Kit desktop app installed locally.
+
+You can test the MCP entrypoint directly:
+
+```bash
+emkit mcp
+```
+
+It will wait for an MCP client on standard input/output. You normally do **not** run this by hand for day-to-day use. Your AI tool launches it automatically.
+
+## Claude Code setup
+
+Claude Code supports local stdio MCP servers.
+
+Add EM Kit as a user-scoped MCP server:
+
+```bash
+claude mcp add emkit --scope user -- emkit mcp
+```
+
+Verify:
+
+```bash
+claude mcp list
+claude mcp get emkit
+```
+
+If you want the server only in the current project, use:
+
+```bash
+claude mcp add emkit --scope project -- emkit mcp
+```
+
+Once connected, ask Claude to use EM Kit tools explicitly, for example:
+
+```text
+Use the EM Kit MCP tools to summarize workspace 1 and identify the top follow-up actions.
+```
+
+Reference: [Claude Code MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp)
+
+## Cursor setup
+
+Cursor supports MCP servers through `mcp.json`.
+
+On macOS and Linux, add this to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "emkit": {
+      "type": "stdio",
+      "command": "emkit",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+Restart Cursor after saving the file.
+
+If your EM Kit CLI is not on `PATH`, use the full executable path instead, for example:
+
+```json
+{
+  "mcpServers": {
+    "emkit": {
+      "type": "stdio",
+      "command": "/Users/your-name/.emkit/emkit",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+Then ask Cursor's agent to use the EM Kit MCP server, for example:
+
+```text
+Use the EM Kit MCP tools to inspect my workspace and summarize open manager tasks and pending feedback.
+```
+
+Reference: [Cursor MCP documentation](https://docs.cursor.com/en/context/mcp)
+
+## Codex setup
+
+Codex supports MCP configuration in both the CLI and the IDE extension.
+
+Add the EM Kit MCP server with the Codex CLI:
+
+```bash
+codex mcp add emkit --command emkit --args mcp
+```
+
+Verify:
+
+```bash
+codex mcp list
+```
+
+You can also configure it directly in `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.emkit]
+command = "emkit"
+args = ["mcp"]
+```
+
+If `emkit` is not on `PATH`, replace `command = "emkit"` with the full executable path.
+
+Then prompt Codex clearly, for example:
+
+```text
+Use the EM Kit MCP server to review workspace 1 and summarize the current management signals.
+```
+
+Reference: [Codex MCP documentation](https://developers.openai.com/resources/docs-mcp)
+
+## Troubleshooting
+
+### MCP client cannot find `emkit`
+
+If Claude Code, Cursor, or Codex cannot launch the MCP server:
+
+1. Run `which emkit` to confirm the CLI is on `PATH`.
+2. If needed, use the full executable path in your MCP configuration.
+3. Re-run `emkit help` manually to verify the CLI itself is working.
+
+### MCP server starts but no EM Kit data is returned
+
+The MCP server relies on the local EM Kit desktop app runtime.
+
+1. Open EM Kit manually once.
+2. Run `emkit doctor` and confirm the expected data directory and workspace count.
+3. Retry the MCP-enabled prompt from your AI tool.

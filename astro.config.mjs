@@ -56,7 +56,8 @@ export default defineConfig({
 				{
 					label: 'Command Line Tool',
 					items: [
-						{ label: 'EM Kit CLI', slug: 'command-line-tool-emkit-cli' }
+						{ label: 'EM Kit CLI', slug: 'command-line-tool-emkit-cli' },
+						{ label: 'EM Kit MCP', slug: 'em-kit-mcp' }
 					],
 				},
 				{

@@ -59,6 +59,12 @@ which emkit
 emkit help
 ```
 
+## EM Kit MCP
+
+If you want to connect EM Kit to Claude Code, Cursor, or Codex through MCP, use the dedicated guide:
+
+- [EM Kit MCP](./em-kit-mcp)
+
 ## Usage modes
 
 ### One-shot commands
@@ -67,6 +73,9 @@ emkit help
 emkit doctor
 emkit workspace list
 emkit member list --workspace-id 1
+emkit ai workspace-summary --workspace-id 1
+emkit ai manager-tasks --workspace-id 1 --status open
+emkit ai feedback --workspace-id 1 --status to_share
 ```
 
 ### Interactive TUI
@@ -87,6 +96,16 @@ TUI supports:
 
 ```bash
 emkit doctor
+emkit mcp
+
+emkit ai workspace-summary --workspace-id 1
+emkit ai team-members --workspace-id 1 --limit 20
+emkit ai manager-tasks --workspace-id 1 --status open
+emkit ai feedback --workspace-id 1 --status to_share
+emkit ai daily-notes --workspace-id 1 --days 14
+emkit ai work-log --workspace-id 1 --days 14
+emkit ai latest-review-period --workspace-id 1
+
 emkit workspace list
 emkit workspace get --id 1
 emkit workspace create --name "Platform"
@@ -98,12 +117,6 @@ emkit member get --id 2
 emkit member create --input '{"workspace_id":1,"name":"Jane Doe"}'
 emkit member update --id 2 --input '{"name":"Jane D."}'
 emkit member delete --id 2
-
-emkit evidence list --member-id 2
-emkit evidence get --id 10
-emkit evidence create --member-id 2 --input '{"title":"Incident leadership","description":"Led production recovery"}'
-emkit evidence delete --id 10
-emkit evidence clear --member-id 2 --source github
 
 emkit report history --workspace-id 1
 emkit report get --report-id 12
@@ -121,11 +134,9 @@ CLI responses are JSON, which makes it easy to consume from scripts and AI agent
 {
   "ok": true,
   "command": "workspace list",
-  "data": {
-    "items": [
-      { "id": 1, "name": "Platform" }
-    ]
-  }
+  "data": [
+    { "id": 1, "name": "Platform", "created_at": "2026-03-06 19:21:00" }
+  ]
 }
 ```
 
