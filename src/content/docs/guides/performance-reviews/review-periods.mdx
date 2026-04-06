@@ -3,12 +3,13 @@ title: Review Periods
 description: Set up and manage review cycles for your workspace.
 ---
 
-## Where to find it
+import { Picture } from 'astro:assets';
+import CreateReviewPeriodImage from '@assets/screenshots/emkit-create-review-period.png';
+import EditReviewPeriodImage from '@assets/screenshots/emkit-edit-review-period.png';
 
-1. Open **Performance** from the left sidebar.
-2. In **Review Periods**, use the selector to switch periods.
+...
 
-## Create a review period
+#### Create a review period
 
 1. Click **New Review Period**.
 2. Fill in:
@@ -16,12 +17,24 @@ description: Set up and manage review cycles for your workspace.
 - **Date Range**
 3. Click **Create**.
 
-## Edit or delete a period
+<Picture 
+    src={CreateReviewPeriodImage} 
+    alt="Create Review Period"
+/>
 
-- Click **Edit Period** to update title or dates.
+
+#### Edit or delete a period
+
+- Click **Edit Period** to update title, dates, rating levels and template for review notes
+
+<Picture 
+    src={EditReviewPeriodImage} 
+    alt="Edit Review Period"
+/>
+
 - Click **Delete Period** to remove the period and associated member review data.
 
-## Team Summary table
+#### Team Summary table
 
 For the selected period, EM Kit shows:
 

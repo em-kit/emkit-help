@@ -3,18 +3,31 @@ title: Performance Reviews
 description: Navigate the full performance review workflow in EM Kit.
 ---
 
+import { Picture } from 'astro:assets';
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import PerformanceReviewImage from '@assets/screenshots/emkit-performance-review.png';
+import MemberPerformanceReviewsImage from '@assets/screenshots/emkit-member-performance-space.png';
 
 EM Kit supports both team-level review planning and member-level review execution.
 
 <CardGrid>
   <LinkCard title="Review Periods" href="review-periods" />
   <LinkCard title="Member Review" href="member-review" />
+  <LinkCard title="Performance Improvement Plan (PIP)" href="pip" />
 </CardGrid>
 
-## Main entry points
+#### Two entry points
 
 - **Performance** (left sidebar): create and manage review periods, then track team summary.
+
+<Picture 
+    src={PerformanceReviewImage} 
+    alt="Performance Review - Team Summary"
+/>
+
 - **My Team -> Member -> Performance Reviews**: open a member's reviews directly.
 
-> Screenshot placeholder: add the Performance overview page here.
+<Picture 
+    src={MemberPerformanceReviewsImage} 
+    alt="Performance Review - Member Space"
+/>

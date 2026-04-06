@@ -1,0 +1,113 @@
+---
+title: Automations
+description: Schedule recurring AI-powered tasks that run against your workspace data.
+---
+
+Automations let you schedule recurring AI-powered tasks within your workspace. Define a prompt, pick a schedule, and EM Kit runs it automatically — producing reports, summaries, or alerts using your workspace data and connected integrations.
+
+## Requirements
+
+Automations use the same AI provider as [EM Copilot](/guides/em-copilot/). Before creating an automation:
+
+1. Install **Claude Code** or **Codex CLI** and authenticate in your terminal.
+2. Configure the provider in **Settings → EM Copilot**.
+
+## Where to find it
+
+Open **Automations** from the left sidebar.
+
+## Tabs
+
+The Automations page has three tabs:
+
+- **Automations** — List of all automations in the workspace.
+- **History** — Run history showing past executions and their results.
+- **Templates** — Pre-built automation templates to get started quickly.
+
+## Creating an automation
+
+1. Click **Create automation** (or pick a template from the **Templates** tab and click **Use template**).
+2. Fill in the form:
+   - **Name** — A short label for the automation.
+   - **Prompt** — The instruction the AI will execute. Reference your workspace data, integrations, or anything the [EM Kit MCP server](/em-kit-mcp/) exposes.
+   - **Schedule mode** — Choose **Weekly** or **Interval**.
+   - **Enabled** — Toggle the automation on or off.
+3. Click **Create**.
+
+### Weekly schedule
+
+Pick one or more days of the week and a time. The automation runs at the chosen time on each selected day, in your local timezone.
+
+### Interval schedule
+
+Set a number of hours (1–168). The automation runs repeatedly at that interval.
+
+## Model and reasoning overrides
+
+Expand **Model and effort** in the create/edit modal to override the default AI settings for a specific automation:
+
+- **Model** — Choose a different AI model than the workspace default.
+- **Reasoning effort** — Set to Low, Medium, High, or Max to control how much the AI "thinks" before responding.
+
+These are optional — automations use your workspace defaults when not overridden.
+
+## Running an automation manually
+
+Open an existing automation and click **Run now** to execute it immediately, regardless of its schedule. Manual runs are tagged as "manual" in the history.
+
+## Enabling and disabling
+
+Toggle the **Enabled** switch in the edit modal to pause or resume an automation without deleting it. Disabled automations keep their configuration and history but will not run on schedule.
+
+## History
+
+The **History** tab shows the last 200 runs across all automations:
+
+- **Automation name** — Which automation ran.
+- **Date** — When the run started.
+- **Status** — Running, Success, or Failure.
+
+Click a run to inspect its full output (rendered as markdown), any errors, and the AI's extended thinking.
+
+You can delete individual history entries using the delete icon.
+
+## Templates
+
+The **Templates** tab provides ready-to-use automation configurations:
+
+| Template | Schedule | What it does |
+|----------|----------|-------------|
+| Daily bot | Weekdays at 09:00 | Summarizes team achievements |
+| Weekly achievements recap | Friday at 16:00 | End-of-week summary |
+| Missed worklog scan | Friday at 17:00 | Identifies missing work log entries |
+| 1:1 Prep Brief | Weekdays at 08:00 | Prepares context for upcoming 1:1s |
+| Career Growth Check-in | Monday at 09:00 | Monthly skill gap analysis |
+| Quiet Contributor Spotlight | Friday at 11:00 | Surfaces unrecognized contributions |
+| PR Review Bottleneck Detector | Weekdays at 10:00 | Finds stale pull requests |
+| Weekend/After-Hours Work Alert | Monday at 08:00 | Detects burnout patterns |
+
+Click **Use template** to pre-fill the creation form with the template's name, prompt, and schedule. You can customize everything before saving.
+
+## Example prompts
+
+- "Summarize the team's work log entries from this week and highlight any blockers."
+- "Check if any team member has not logged work in the past 3 days."
+- "List open issues assigned to my team that are past their due date."
+- "Prepare a brief for my 1:1 with each direct report, including recent feedback and objectives progress."
+
+## Troubleshooting
+
+### Automation shows "Paused" in the next run column
+
+The automation is disabled. Open it and toggle **Enabled** on.
+
+### Automation fails with an error
+
+1. Open the run in the **History** tab to see the error message.
+2. Make sure the AI provider is still configured and authenticated — run `which claude` or `which codex` in your terminal.
+3. Run `emkit doctor` to verify the CLI bridge is healthy.
+
+### No runs appear in history
+
+1. Confirm the automation is enabled and has a valid schedule.
+2. Make sure the EM Kit desktop app is running — the scheduler only runs while the app is open.

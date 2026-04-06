@@ -1,0 +1,36 @@
+---
+title: Career Path
+description: Define your engineering career framework with levels, skills, and team assessments.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Career Path lets you build a structured career development framework for your team. Define job levels, create skills with proficiency rubrics, assess team members against those skills, and visualize alignment with level expectations.
+
+<CardGrid>
+  <LinkCard title="Levels" href="levels" />
+  <LinkCard title="Skills" href="skills" />
+  <LinkCard title="Member Rating" href="member-rating" />
+</CardGrid>
+
+## Where to find it
+
+Open **Career Path** from the left sidebar.
+
+## Tabs
+
+The Career Path page has four tabs:
+
+- **Levels** — Define job levels and their skill expectations.
+- **Skills** — Create skills with multi-tier proficiency rubrics.
+- **Team Overview** — Assess and view the entire team's skill positioning at a glance.
+- **Compare** — Compare a member's current skills against a target level using a radar chart.
+
+## Export and import
+
+Use the dropdown menu in the header to **export** or **import** your career path definition as a JSON file.
+
+- **Export** saves all levels and skills (not member assessments) to a `career-path-definition.json` file.
+- **Import** replaces the current levels and skills with the contents of a JSON file.
+
+This is useful for sharing frameworks between workspaces or backing up your configuration.

@@ -9,18 +9,25 @@ This is the recommended setup if you want AI tools to fetch EM Kit data on deman
 
 ## What the MCP server exposes
 
-The EM Kit MCP server currently exposes read-only tools for:
+The EM Kit MCP server exposes tools for:
 
+**Read-only**
 - Listing workspaces
 - Getting a workspace summary
 - Listing team members
-- Listing manager tasks
 - Listing feedback to share
 - Listing daily notes
 - Listing work log entries
 - Getting the latest review period
+- Listing issues (with filters for status, priority, assignee)
+- Getting a single issue by ID
 
-Because these tools are read-only, this setup is safer than exposing the full CLI or raw SQL commands to your agent.
+**Read-write**
+- Creating an issue
+- Updating an issue (status, priority, assignee, due date, etc.)
+- Career path management (levels, skills)
+
+Read-write tools are annotated so that MCP clients can prompt for confirmation before executing them.
 
 ## Requirements
 
@@ -106,7 +113,7 @@ If your EM Kit CLI is not on `PATH`, use the full executable path instead, for e
 Then ask Cursor's agent to use the EM Kit MCP server, for example:
 
 ```text
-Use the EM Kit MCP tools to inspect my workspace and summarize open manager tasks and pending feedback.
+Use the EM Kit MCP tools to inspect my workspace and summarize open issues and pending feedback.
 ```
 
 Reference: [Cursor MCP documentation](https://docs.cursor.com/en/context/mcp)

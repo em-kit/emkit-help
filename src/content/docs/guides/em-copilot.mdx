@@ -1,0 +1,55 @@
+---
+title: EM Copilot
+description: Set up and use the EM Copilot AI assistant in EM Kit.
+---
+
+EM Copilot is an AI-powered assistant built into EM Kit. It connects to a local coding agent — **Claude Code** or **Codex CLI** — and gives it access to your workspace data through the [EM Kit MCP server](/em-kit-mcp/).
+
+Use it to ask questions about your team, summarize feedback, draft review notes, or surface action items — all from within the app.
+
+## Requirements
+
+Before using EM Copilot:
+
+1. Install one of the supported providers on your machine:
+   - **Claude Code** — install from [docs.anthropic.com](https://docs.anthropic.com/en/docs/claude-code/overview) and authenticate in your terminal.
+   - **Codex CLI** — install from [openai.com](https://openai.com/index/introducing-codex/) and authenticate in your terminal.
+2. Make sure the provider command (`claude` or `codex`) is available in your terminal `PATH`.
+
+## Configure EM Copilot
+
+1. Open **Settings → EM Copilot**.
+2. Select your **Provider** from the dropdown.
+3. Optionally set a **Custom command path** if the provider executable is not on `PATH`.
+4. Click **Save AI assistant settings**.
+5. Click **Refresh** to verify the provider is detected and shows as "Installed".
+
+The status table below the form shows each provider's installation status, executable path, and version.
+
+## Using the assistant
+
+Once configured, click the **Copilot** button in the top-right corner of the app to open the assistant drawer.
+
+EM Kit automatically starts your selected provider and connects it to the [EM Kit MCP server](/em-kit-mcp/), giving the assistant access to your workspace data — team members, work log, feedback, daily notes, issues, and more. The assistant can also create and update issues on your behalf.
+
+### Example prompts
+
+- "Summarize the feedback I need to share this week."
+- "What are my open issues?"
+- "Create an urgent issue to fix the login bug and assign it to me."
+- "Draft a quick status update from this week's work log entries."
+- "List the team members who have a review coming up."
+
+## Troubleshooting
+
+### Provider shows "Not installed"
+
+1. Open a terminal and run `which claude` or `which codex` to confirm the CLI is on `PATH`.
+2. If you installed the CLI in a custom location, enter the full path in the **Custom command path** field.
+3. Click **Refresh** to re-check.
+
+### Assistant does not respond
+
+1. Make sure the EM Kit desktop app is running — the MCP server requires it.
+2. Run `emkit doctor` in your terminal to verify the CLI bridge is healthy.
+3. Check that you have authenticated the provider CLI at least once in your terminal.

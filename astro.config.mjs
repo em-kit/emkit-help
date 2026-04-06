@@ -1,8 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import './src/styles/custom.css';
-
 export default defineConfig({
 	site: 'https://help.emkit.com',
 	vite: {
@@ -15,6 +13,7 @@ export default defineConfig({
 			components: {
 				PageFrame: './src/components/PageFrame.astro',
 			},
+			customCss: ['./src/styles/custom.css'],
 			title: 'Help Center',
 			logo: {
 				light: './src/assets/logo.png',
@@ -39,25 +38,32 @@ export default defineConfig({
 					items: [
 						{ label: 'One-on-One', slug: 'guides/one-on-one' },
 						{ label: 'Daily Meeting Notes', slug: 'guides/daily-meeting-notes' },
+						{ label: 'Work Log', slug: 'guides/work-log' },
+						{ label: 'Issues', slug: 'guides/issues' },
+						{ label: 'Feedbacks', slug: 'guides/feedbacks' },
 						{
 							label: 'Performance Reviews',
 							items: [
 								{ label: 'Overview', slug: 'guides/performance-reviews' },
 								{ label: 'Review Periods', slug: 'guides/performance-reviews/review-periods' },
-								{ label: 'Member Review', slug: 'guides/performance-reviews/member-review' }
+								{ label: 'Member Review', slug: 'guides/performance-reviews/member-review' },
+								{ label: 'Performance Improvement Plan (PIP)', slug: 'guides/performance-reviews/pip' },
 							]
 						},
-						{ label: 'Work Log', slug: 'guides/work-log' },
-						{ label: 'Tasks', slug: 'guides/tasks' },
-						{ label: 'Feedbacks', slug: 'guides/feedbacks' },
-						{ label: 'Analytics', slug: 'guides/analytics' }
-					],
-				},
-				{
-					label: 'Command Line Tool',
-					items: [
-						{ label: 'EM Kit CLI', slug: 'command-line-tool-emkit-cli' },
-						{ label: 'EM Kit MCP', slug: 'em-kit-mcp' }
+						{
+							label: 'Career Path',
+							items: [
+								{ label: 'Overview', slug: 'guides/career-path' },
+								{ label: 'Levels', slug: 'guides/career-path/levels' },
+								{ label: 'Skills', slug: 'guides/career-path/skills' },
+								{ label: 'Member Rating', slug: 'guides/career-path/member-rating' },
+							]
+						},
+						{ label: 'Analytics', slug: 'guides/analytics' },
+						{ label: 'Automations', slug: 'guides/automations' },
+						{ label: 'EM Copilot', slug: 'guides/em-copilot' },
+						{ label: 'EM Kit CLI', slug: 'guides/emkit-cli' },
+						{ label: 'EM Kit MCP', slug: 'guides/em-kit-mcp' }
 					],
 				},
 				{

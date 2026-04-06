@@ -74,8 +74,8 @@ emkit doctor
 emkit workspace list
 emkit member list --workspace-id 1
 emkit ai workspace-summary --workspace-id 1
-emkit ai manager-tasks --workspace-id 1 --status open
 emkit ai feedback --workspace-id 1 --status to_share
+emkit issue list --workspace-id 1 --status todo,in_progress
 ```
 
 ### Interactive TUI
@@ -100,7 +100,6 @@ emkit mcp
 
 emkit ai workspace-summary --workspace-id 1
 emkit ai team-members --workspace-id 1 --limit 20
-emkit ai manager-tasks --workspace-id 1 --status open
 emkit ai feedback --workspace-id 1 --status to_share
 emkit ai daily-notes --workspace-id 1 --days 14
 emkit ai work-log --workspace-id 1 --days 14
@@ -117,6 +116,14 @@ emkit member get --id 2
 emkit member create --input '{"workspace_id":1,"name":"Jane Doe"}'
 emkit member update --id 2 --input '{"name":"Jane D."}'
 emkit member delete --id 2
+
+emkit issue list --workspace-id 1
+emkit issue list --workspace-id 1 --status todo,in_progress
+emkit issue list --workspace-id 1 --priority urgent,high --assignee-type me
+emkit issue get --id 5
+emkit issue create --input '{"workspace_id":1,"title":"Fix login bug","priority":"high"}'
+emkit issue update --id 5 --input '{"status":"in_progress"}'
+emkit issue delete --id 5
 
 emkit report history --workspace-id 1
 emkit report get --report-id 12

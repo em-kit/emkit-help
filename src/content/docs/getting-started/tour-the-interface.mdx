@@ -6,7 +6,10 @@ description: ...
 import { Picture } from 'astro:assets';
 import HomePageImage from '@assets/screenshots/emkit-home.png';
 import MyTeamPageImage from '@assets/screenshots/emkit-team-overview.png';
-import TeamMemberOverviewImage from '@assets/screenshots/emkit-team-member-overview.png';
+import TeamMemberOverviewImage from '@assets/screenshots/emkit-team-member-space.png';
+import OneOnOneImage from '@assets/screenshots/emkit-one-on-one.png';
+import PerformanceReviewImage from '@assets/screenshots/emkit-performance-review.png';
+import IssuesImage from '@assets/screenshots/emkit-issues.png';
 
 #### Explore EM Kit's user interface with this guided tour of essential features.
 
@@ -29,14 +32,22 @@ Team Member Overview
 />
 
 One-on-One
-...
-
+<Picture 
+    src={OneOnOneImage} 
+    alt="One-on-One"
+/>
 
 Daily meeting notes
 ...
 
 Performance review
-...
+<Picture 
+    src={PerformanceReviewImage} 
+    alt="Performance Review"
+/>
 
-Tasks
-...
+Issues
+<Picture 
+    src={IssuesImage} 
+    alt="Issues"
+/>
