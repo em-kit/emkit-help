@@ -1,0 +1,45 @@
+---
+title: Installation
+description: How to download and install EM Kit on macOS, Windows, and Linux.
+---
+
+## Download
+
+Head to [emkit.app](https://emkit.app) and download the installer for your platform:
+
+| Platform | Format |
+|----------|--------|
+| macOS (Apple Silicon) | `.dmg` (arm64) |
+| macOS (Intel) | `.dmg` (x64) |
+| Windows | `.exe` (NSIS installer) |
+| Linux | `.AppImage` |
+
+## macOS — "App is damaged" warning
+
+During the Beta phase, EM Kit is not yet signed with an Apple Developer certificate. Because of this, macOS Gatekeeper may display a warning when you try to open the app:
+
+> "EM Kit" is damaged and can't be opened. You should eject the disk image.
+
+**This is expected and does not mean the app is actually damaged.** It happens because macOS quarantines applications downloaded from the internet that are not code-signed.
+
+### Workaround
+
+After mounting the `.dmg` and dragging **EM Kit** into your **Applications** folder, open **Terminal** and run:
+
+```bash
+xattr -cr /Applications/EM\ Kit.app
+```
+
+This removes the quarantine attribute. You can then open EM Kit normally.
+
+:::note
+This only needs to be done once per installation. Future launches will work without repeating this step.
+:::
+
+:::tip
+If you prefer not to use the Terminal, you can also right-click (or Control-click) the app in Finder and choose **Open**. macOS will ask for confirmation, but will then let you run the app.
+:::
+
+## Windows & Linux
+
+No additional steps are required. Run the downloaded installer and follow the on-screen instructions.

@@ -29,6 +29,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Welcome', slug: 'index' },
 						{ label: 'What is EM Kit?', slug: 'getting-started/what-is-emkit' },
+						{ label: 'Installation', slug: 'getting-started/installation' },
 						{ label: 'Configure your team', slug: 'getting-started/configure-team' },
 						{ label: 'Tour the Interface', slug: 'getting-started/tour-the-interface' }
 					],
