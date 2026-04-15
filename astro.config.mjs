@@ -30,15 +30,37 @@ export default defineConfig({
 						{ label: 'Welcome', slug: 'index' },
 						{ label: 'What is EM Kit?', slug: 'getting-started/what-is-emkit' },
 						{ label: 'Installation', slug: 'getting-started/installation' },
-						{ label: 'Configure your team', slug: 'getting-started/configure-team' },
 						{ label: 'Tour the Interface', slug: 'getting-started/tour-the-interface' }
 					],
 				},
 				{
 					label: 'Guides',
 					items: [
-						{ label: 'One-on-One', slug: 'guides/one-on-one' },
-						{ label: 'Daily Meeting Notes', slug: 'guides/daily-meeting-notes' },
+						{
+							label: 'Your Team',
+							items: [
+								{ label: 'Overview', slug: 'guides/team' },
+								{ label: 'Member Space', slug: 'guides/team/member-space' },
+							]
+						},
+						{
+							label: 'Notes',
+							items: [
+								{ label: 'Overview', slug: 'guides/notes' },
+								{ label: 'One-on-One', slug: 'guides/notes/one-on-one' },
+								{ label: 'Daily Meeting', slug: 'guides/notes/daily-meeting' },
+								{ label: 'Custom Notes', slug: 'guides/notes/custom-notes' },
+							]
+						},
+						{
+							label: 'Notes',
+							items: [
+								{ label: 'Overview', slug: 'guides/notes' },
+								{ label: 'One-on-One', slug: 'guides/notes/one-on-one' },
+								{ label: 'Daily Meeting', slug: 'guides/notes/daily-meeting' },
+								{ label: 'Custom Notes', slug: 'guides/notes/custom-notes' },
+							]
+						},
 						{ label: 'Work Log', slug: 'guides/work-log' },
 						{ label: 'Issues', slug: 'guides/issues' },
 						{ label: 'Feedbacks', slug: 'guides/feedbacks' },

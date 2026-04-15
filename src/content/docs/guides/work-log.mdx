@@ -3,16 +3,34 @@ title: Work Log
 description: Track wins and generate weekly summaries for Slack.
 ---
 
-## Where to find it
+import { Picture } from 'astro:assets';
+import WorkLogImage from '@assets/screenshots/emkit-work-log.png';
+
+As an engineering manager, your team's impact is often invisible unless you actively surface it. A work log is one of the most effective tools for making that impact visible, both to your team and to the rest of the organization.
+
+Keeping a work log helps you:
+
+- **Advocate for your team**: Concrete wins make it easier to recognize contributors, justify promotions, and defend headcount during planning.
+- **Communicate upward**: Weekly summaries give your leadership a clear, consistent view of what your team is shipping without ad-hoc status requests.
+- **Fight recency bias**: Performance reviews and retrospectives benefit from a written record rather than whatever happened in the last two weeks.
+- **Reflect and course-correct**: Patterns emerge over time. You'll spot where effort is going, what's stalled, and where to invest next.
+- **Onboard and hand off**: A running log is invaluable when a new manager, peer, or skip-level needs context fast.
+
+Treat the work log as a lightweight habit: a few minutes each week to capture wins compounds into a durable record of your team's contribution.
+
+#### Overview
 
 Open **Work Log** from the left sidebar.
 
-## Tabs
+<Picture 
+    src={WorkLogImage} 
+    alt="Work Log Page"
+/>
 
-- **My Work Log**: personal manager achievements.
 - **Team Work Log**: team achievements with contributor attribution.
+- **My Work Log**: personal manager achievements.
 
-## Add or edit entries
+#### Add or edit entries
 
 Each entry supports:
 
@@ -21,9 +39,10 @@ Each entry supports:
 - **Details** (optional)
 - **Links** (GitHub, Jira, and others)
 
+
 For **Team Work Log**, at least one **Contributor** is required.
 
-## Generate weekly Slack draft
+#### Generate weekly Slack draft
 
 1. Open **Team Work Log**.
 2. Click the summary action to generate a draft.
@@ -31,5 +50,3 @@ For **Team Work Log**, at least one **Contributor** is required.
 4. Click **Generate**, then **Copy** to clipboard.
 
 The draft includes manager achievements and team wins.
-
-> Screenshot placeholder: add My Work Log, Team Work Log, and summary modal here.

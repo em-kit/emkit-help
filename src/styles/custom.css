@@ -1,4 +1,101 @@
-/* Style nested sidebar group labels (e.g. Performance Reviews, Career Path) like regular links */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
+
+/* ---------------------------------------------------------------
+   Match the emkit-landing palette in Starlight.
+   Landing tokens live in HSL; we map them to Starlight's --sl-*.
+   --------------------------------------------------------------- */
+
+:root {
+  --sl-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sl-radius-base: 1rem;
+}
+
+/* Dark mode (Starlight default) — landing .dark tokens */
+:root,
+:root[data-theme='dark'] {
+  --sl-color-accent-low: hsl(217 100% 18%);
+  --sl-color-accent: hsl(217 100% 56%);
+  --sl-color-accent-high: hsl(217 100% 82%);
+
+  --sl-color-white: hsl(0 0% 95%);
+  --sl-color-gray-1: hsl(0 0% 90%);
+  --sl-color-gray-2: hsl(0 0% 70%);
+  --sl-color-gray-3: hsl(0 0% 55%);
+  --sl-color-gray-4: hsl(0 0% 35%);
+  --sl-color-gray-5: hsl(0 0% 18%);
+  --sl-color-gray-6: hsl(0 0% 12%);
+  --sl-color-black: hsl(0 0% 2%);
+
+  --sl-color-bg: hsl(0 0% 2%);
+  --sl-color-bg-nav: hsl(0 0% 4%);
+  --sl-color-bg-sidebar: hsl(0 0% 4%);
+  --sl-color-bg-inline-code: hsl(0 0% 10%);
+  --sl-color-hairline-light: hsl(0 0% 14%);
+  --sl-color-hairline: hsl(0 0% 14%);
+  --sl-color-hairline-shade: hsl(0 0% 10%);
+
+  --sl-color-text: hsl(0 0% 95%);
+  --sl-color-text-accent: hsl(217 100% 66%);
+  --sl-color-text-invert: hsl(0 0% 100%);
+}
+
+/* Light mode — white background with landing's warm accent */
+:root[data-theme='light'] {
+  --sl-color-accent-low: hsl(30 35% 92%);
+  --sl-color-accent: hsl(30 35% 60%);
+  --sl-color-accent-high: hsl(30 30% 25%);
+
+  --sl-color-white: hsl(30 12% 12%);
+  --sl-color-gray-1: hsl(30 12% 18%);
+  --sl-color-gray-2: hsl(30 10% 30%);
+  --sl-color-gray-3: hsl(30 8% 42%);
+  --sl-color-gray-4: hsl(30 10% 60%);
+  --sl-color-gray-5: hsl(30 12% 82%);
+  --sl-color-gray-6: hsl(0 0% 94%);
+  --sl-color-gray-7: hsl(0 0% 97%);
+  --sl-color-black: hsl(0 0% 100%);
+
+  --sl-color-bg: hsl(0 0% 100%);
+  --sl-color-bg-nav: hsl(0 0% 100%);
+  --sl-color-bg-sidebar: hsl(0 0% 100%);
+  --sl-color-bg-inline-code: hsl(0 0% 96%);
+  --sl-color-hairline-light: hsl(0 0% 92%);
+  --sl-color-hairline: hsl(0 0% 90%);
+  --sl-color-hairline-shade: hsl(0 0% 86%);
+
+  --sl-color-text: hsl(30 12% 12%);
+  --sl-color-text-accent: hsl(30 12% 12%);
+  --sl-color-text-invert: hsl(0 0% 100%);
+}
+
+/* ---------------------------------------------------------------
+   Landing-flavoured utilities.
+   --------------------------------------------------------------- */
+
+.font-serif {
+  font-family: 'Source Serif 4', ui-serif, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+/* Match landing: h1/h2 in Source Serif 4, body + smaller headings in Inter */
+.sl-markdown-content :is(h1, h2),
+.content-panel :is(h1, h2),
+h1.hero-title,
+.hero h1 {
+  font-family: 'Source Serif 4', ui-serif, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.shadow-warm {
+  box-shadow:
+    0 30px 80px -30px rgba(60, 40, 20, 0.18),
+    0 8px 24px -12px rgba(60, 40, 20, 0.08);
+}
+
+/* Preserve existing sidebar group-label tweak */
 ul.top-level > li > details > ul > li > details > summary .group-label .large {
   font-weight: normal;
   font-size: var(--sl-text-sm);

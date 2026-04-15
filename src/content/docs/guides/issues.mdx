@@ -3,14 +3,18 @@ title: Issues
 description: Track issues with status, priority, assignees, sub-issues, and due dates.
 ---
 
-## Where to find it
+import { Picture } from 'astro:assets';
+import IssuesImage from '@assets/screenshots/emkit-issues.png';
+import IssueImage from '@assets/screenshots/emkit-issue.png';
 
-Open **Issues** from the left sidebar.
+Issues offers a task management system to track progress on things that are not handled in services like Jira or Linear (e.g. your tasks as manager, team member action items discussed during 1:1s, ...). 
 
-## Overview
+<Picture 
+    src={IssuesImage} 
+    alt="Issues List Page"
+/>
 
-Issues replace the previous simple task system with a richer tracking model inspired by tools like Linear:
-
+Issues have the following properties:
 - **Status** — To Do, In Progress, Done
 - **Priority** — Urgent, High, Medium, Low (optional)
 - **Assignee** — Yourself (Me) or a team member
@@ -18,14 +22,14 @@ Issues replace the previous simple task system with a richer tracking model insp
 - **Description** — Rich markdown editor
 - **Sub-issues** — Break work into smaller pieces
 
-## List and Kanban views
+#### List and Kanban views
 
 Switch between **List** and **Kanban** views using the toggle in the top-right corner.
 
 - **List view** — Issues grouped by status with collapsible sections
 - **Kanban view** — Drag-and-drop cards between To Do, In Progress, and Done columns
 
-## Filters
+#### Filters
 
 Filter issues by:
 
@@ -33,7 +37,7 @@ Filter issues by:
 - **Priority** — Show only specific priorities
 - **Assignee** — Filter by Me or a specific team member
 
-## Creating an issue
+#### Creating an issue
 
 Click **New Issue** to open the creation modal:
 
@@ -42,10 +46,15 @@ Click **New Issue** to open the creation modal:
 3. Click **Create issue**
 4. Toggle **Create more** to stay in the modal for rapid entry
 
-## Editing an issue
+#### Editing an issue
 
 Click any issue to open the detail drawer where you can edit all fields, manage sub-issues, and delete the issue.
 
-## Action items in 1:1s
+<Picture 
+    src={IssueImage} 
+    alt="Issue Detail Page"
+/>
+
+#### Action items in 1:1s
 
 Issues are also used as action items in 1:1 meetings. When you add an action item during a 1:1, it creates an issue linked to that meeting. Open issues from previous 1:1s are carried forward automatically.

@@ -1,0 +1,28 @@
+---
+    title: Notes
+    description: Take and organize notes for your engineering career development.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Picture } from 'astro:assets';
+import NotesListImage from '@assets/screenshots/emkit-notes-list.png';
+
+Notes lets you take and organize notes for your team. 
+
+<CardGrid>
+  <LinkCard title="1:1" href="one-on-one" />
+  <LinkCard title="Daily Meeting" href="daily-meeting" />
+  <LinkCard title="Custom Notes" href="custom-notes" />
+</CardGrid>
+
+Open **Notes** from the left sidebar and go to Notes tab in member space.
+
+<Picture 
+    src={NotesListImage} 
+    alt="Notes List Page"
+/>
+
+#### Saving behavior
+
+- Note content is autosaved while you type.
+- EM Kit tries to save before you leave the page when changes are pending.
