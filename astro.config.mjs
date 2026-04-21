@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 export default defineConfig({
-	site: 'https://help.emkit.com',
+	site: 'https://help.emkit.app',
 	vite: {
 		ssr: {
 			external: ['prismjs'],
@@ -41,15 +41,7 @@ export default defineConfig({
 							items: [
 								{ label: 'Overview', slug: 'guides/team' },
 								{ label: 'Member Space', slug: 'guides/team/member-space' },
-							]
-						},
-						{
-							label: 'Notes',
-							items: [
-								{ label: 'Overview', slug: 'guides/notes' },
-								{ label: 'One-on-One', slug: 'guides/notes/one-on-one' },
-								{ label: 'Daily Meeting', slug: 'guides/notes/daily-meeting' },
-								{ label: 'Custom Notes', slug: 'guides/notes/custom-notes' },
+								{ label: 'Member Objectives', slug: 'guides/team/member-objectives' },
 							]
 						},
 						{
@@ -84,6 +76,15 @@ export default defineConfig({
 						},
 						{ label: 'Analytics', slug: 'guides/analytics' },
 						{ label: 'Automations', slug: 'guides/automations' },
+						{
+							label: 'Integrations',
+							items: [
+								{ label: 'Overview', slug: 'guides/integrations' },
+								{ label: 'GitHub', slug: 'guides/integrations/github' },
+								{ label: 'Jira', slug: 'guides/integrations/jira' },
+								{ label: 'Slack', slug: 'guides/integrations/slack' },
+							]
+						},
 						{ label: 'EM Copilot', slug: 'guides/em-copilot' },
 						{ label: 'EM Kit CLI', slug: 'guides/emkit-cli' },
 						{ label: 'EM Kit MCP', slug: 'guides/em-kit-mcp' }

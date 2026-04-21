@@ -7,7 +7,7 @@ EM Copilot is an AI-powered assistant built into EM Kit. It connects to a local 
 
 Use it to ask questions about your team, summarize feedback, draft review notes, or surface action items — all from within the app.
 
-## Requirements
+#### Requirements
 
 Before using EM Copilot:
 
@@ -16,23 +16,36 @@ Before using EM Copilot:
    - **Codex CLI** — install from [openai.com](https://openai.com/index/introducing-codex/) and authenticate in your terminal.
 2. Make sure the provider command (`claude` or `codex`) is available in your terminal `PATH`.
 
-## Configure EM Copilot
+#### Configure EM Copilot
 
 1. Open **Settings → EM Copilot**.
 2. Select your **Provider** from the dropdown.
 3. Optionally set a **Custom command path** if the provider executable is not on `PATH`.
-4. Click **Save AI assistant settings**.
-5. Click **Refresh** to verify the provider is detected and shows as "Installed".
+4. Optionally pick a **Default model** and **Reasoning effort** — these apply to Copilot conversations, generated insights, and automations for the current workspace. Individual automations can still override both.
+5. If you selected Claude Code, pick an **Execution mode** (see below).
+6. Click **Save AI assistant settings**.
+7. Click **Refresh** to verify the provider is detected and shows as "Installed".
 
 The status table below the form shows each provider's installation status, executable path, and version.
 
-## Using the assistant
+##### Execution mode (Claude Code only)
+
+Execution mode controls which MCP servers Claude Code loads when EM Kit starts a run:
+
+- **Print** — Claude Code runs with a strict MCP config that only loads the EM Kit MCP server. Best default for scheduled automations: no dependency on your user-level Claude configuration.
+- **Interactive** — Claude Code inherits your user-level MCP configuration in addition to EM Kit's MCP. Use this when you want the Copilot to reach **Claude Code connectors** you set up with `claude mcp add -s user …` (Slack, Atlassian, Notion, etc.).
+
+Both modes use the same fast non-interactive execution path — the label "Interactive" refers to *connector scope*, not to opening a terminal UI.
+
+> If you use the **Slack MCP connector** access method for the [Slack integration](/guides/integrations/slack/), EM Kit automatically inherits your user-level MCP config for that run regardless of this setting. You only need Interactive mode when you want *other* connectors available.
+
+#### Using the assistant
 
 Once configured, click the **Copilot** button in the top-right corner of the app to open the assistant drawer.
 
 EM Kit automatically starts your selected provider and connects it to the [EM Kit MCP server](/em-kit-mcp/), giving the assistant access to your workspace data — team members, work log, feedback, daily notes, issues, and more. The assistant can also create and update issues on your behalf.
 
-### Example prompts
+##### Example prompts
 
 - "Summarize the feedback I need to share this week."
 - "What are my open issues?"
@@ -40,16 +53,32 @@ EM Kit automatically starts your selected provider and connects it to the [EM Ki
 - "Draft a quick status update from this week's work log entries."
 - "List the team members who have a review coming up."
 
-## Troubleshooting
+#### Troubleshooting
 
-### Provider shows "Not installed"
+##### Provider shows "Not installed"
 
 1. Open a terminal and run `which claude` or `which codex` to confirm the CLI is on `PATH`.
 2. If you installed the CLI in a custom location, enter the full path in the **Custom command path** field.
 3. Click **Refresh** to re-check.
 
-### Assistant does not respond
+##### Assistant does not respond
 
 1. Make sure the EM Kit desktop app is running — the MCP server requires it.
 2. Run `emkit doctor` in your terminal to verify the CLI bridge is healthy.
 3. Check that you have authenticated the provider CLI at least once in your terminal.
+
+##### "Claude Code did not respond within 600s"
+
+The provider exceeded its wall-clock budget for a single run. This is usually one of:
+
+1. The CLI is waiting for login — run `claude login` (or `codex login`) in your terminal and complete the flow, then try again.
+2. The prompt triggered a long tool-calling loop. Try narrowing the question or lowering the reasoning effort.
+3. A slow MCP connector is blocking start-up. If you're in **Interactive** execution mode, switch to **Print** to confirm whether a user-scope MCP is the cause, then run `claude mcp list` to see which connector is slow.
+
+##### "Claude Code is not authenticated"
+
+Run `claude login` (or `codex login`) in your terminal, complete the browser flow, then retry the request from EM Copilot. The Copilot surfaces this as a distinct error — you do not need to restart the app after authenticating.
+
+##### "Claude Code stopped at the max-turns limit"
+
+The run hit Claude Code's built-in max-turns limit before producing a final answer. Either simplify the prompt so fewer tool calls are needed, or raise the limit via `--max-turns` in your Claude Code configuration.

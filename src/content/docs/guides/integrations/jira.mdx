@@ -1,0 +1,39 @@
+---
+title: Jira
+description: Connect EM Kit to Jira Cloud to bring ticket context into your notes and reviews.
+---
+
+The Jira integration connects EM Kit to your Jira Cloud site so ticket activity shows up alongside your team's work.
+
+#### What the integration powers
+
+- **One-on-Ones** — the **Recent Jira Issues** panel lists the team member's recent tickets with filters and grouping, giving you ticket-level context for the conversation.
+- **Daily Meeting Notes** — pull in Jira activity around the note's date to complement the GitHub PR signal.
+- **Performance Reviews** — use Jira activity during the review period to identify **missed work log entries** before locking evidence.
+
+#### Requirements
+
+You need a Jira Cloud account with API access and a personal API token.
+
+Generate a token at [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens).
+
+#### Configure the integration
+
+1. Open **Settings -> Integrations**.
+2. Click **Settings** on the **Jira** card.
+3. Fill in:
+   - **Jira Cloud host** — for example `your-domain.atlassian.net` (no `https://`).
+   - **Email address** — the email tied to your Atlassian account.
+   - **API token** — paste the token you generated.
+4. Click **Save**.
+5. Click **Test** to verify the connection. When the status shows **Connected** and the host is verified, you're done.
+
+To rotate a token, paste the new value in the **API token** field and save again. To remove the integration, open the drawer and click **Disconnect**.
+
+#### Troubleshooting
+
+##### Connection fails after saving
+
+1. Double-check the host has no protocol prefix and no trailing slash.
+2. Confirm the email matches the Atlassian account that issued the token.
+3. Regenerate the API token and try again — tokens can expire or be revoked.

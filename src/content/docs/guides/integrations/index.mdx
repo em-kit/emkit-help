@@ -1,0 +1,28 @@
+---
+title: Integrations
+description: Connect EM Kit to GitHub, Jira, and Slack.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+EM Kit connects to the tools your team already uses. Integrations are configured per workspace from **Settings -> Integrations**.
+
+<CardGrid>
+  <LinkCard title="GitHub" href="github" />
+  <LinkCard title="Jira" href="jira" />
+  <LinkCard title="Slack" href="slack" />
+</CardGrid>
+
+#### Use cases
+
+- **GitHub** and **Jira** power pull request and ticket context inside **One-on-Ones** and **Daily Meeting Notes**, and help you scan for missed work log entries when preparing **Performance Reviews**.
+- **Slack** is used exclusively by the **EM Kit Copilot** so AI-assisted features can reach into Slack conversations through MCP.
+
+#### Configure an integration
+
+1. Open **Settings -> Integrations**.
+2. Click **Settings** on the integration card you want to configure.
+3. Fill in the drawer form and click **Save**.
+4. Click **Test** to verify the connection.
+
+Integration status (Connected, Error, or not configured) is shown on each card.

@@ -3,6 +3,18 @@ title: Daily Meeting Notes
 description: Capture daily notes with team pull request context.
 ---
 
+import { Picture } from 'astro:assets';
+import DailyMeetingNoteImage from '@assets/screenshots/emkit-daily-meeting-note.png';
+
+The daily meeting is the team's shortest, most frequent sync. It keeps everyone aligned on what's in flight, surfaces blockers early, and decides who needs help before the day gets away from you.
+
+Daily Meeting Notes give you a place to capture that conversation so decisions, blockers, and follow-ups don't live only in memory or scattered Slack threads.
+
+<Picture 
+    src={DailyMeetingNoteImage} 
+    alt="Daily Meeting Note"
+/>
+
 #### Create a daily meeting note
 
 1. Open **Notes** from the left sidebar.
@@ -17,9 +29,17 @@ A new note is created for today and opened directly.
 - Expand **Recent Pull Requests** to load team PR activity around that date.
 - Write your daily summary in the **Notes** markdown editor.
 
+#### Prepare the note automatically
+
+EM Kit can pre-fill the note with the previous day's topics pulled from your connected tools, so you walk into the daily with an up-to-date draft instead of a blank page:
+
+- **GitHub** — pull requests opened, merged, or reviewed by the team.
+- **Jira** — tickets moved, commented on, or closed.
+- **Slack** — relevant messages and threads surfaced through the EM Kit Copilot.
+
+The automation groups these signals into talking points you can edit, delete, or expand before the meeting starts. Connect the sources you want to use from **Settings -> Integrations** — see the [Integrations guide](/guides/integrations/) for setup details.
+
 #### Manage your notes list
 
 - Use the list page to reopen previous notes.
 - Delete outdated notes from the table actions.
-
-> Screenshot placeholder: add the Daily Notes list and detail pages here.

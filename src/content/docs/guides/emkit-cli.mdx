@@ -10,7 +10,7 @@ The **EM Kit CLI** lets you query and update EM Kit data from your terminal.
 - Supports both one-shot commands and an interactive TUI.
 - Focuses on EM Kit local data (no GitHub CLI replacement).
 
-## Install from EM Kit desktop
+#### Install from EM Kit desktop
 
 1. Open **Settings -> Command Line Tool**.
 2. Click **Install Command Line Tool**.
@@ -28,25 +28,25 @@ The executable path is typically:
 ~/.emkit/emkit
 ```
 
-## Add to PATH
+#### Add to PATH
 
 If you see `CLI install directory is not in PATH`, add the install directory to your shell PATH.
 
-### zsh (default on macOS)
+##### zsh (default on macOS)
 
 ```bash
 echo 'export PATH="$HOME/.emkit:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-### bash
+##### bash
 
 ```bash
 echo 'export PATH="$HOME/.emkit:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### fish
+##### fish
 
 ```fish
 fish_add_path $HOME/.emkit
@@ -59,15 +59,15 @@ which emkit
 emkit help
 ```
 
-## EM Kit MCP
+#### EM Kit MCP
 
 If you want to connect EM Kit to Claude Code, Cursor, or Codex through MCP, use the dedicated guide:
 
 - [EM Kit MCP](./em-kit-mcp)
 
-## Usage modes
+#### Usage modes
 
-### One-shot commands
+##### One-shot commands
 
 ```bash
 emkit doctor
@@ -78,7 +78,7 @@ emkit ai feedback --workspace-id 1 --status to_share
 emkit issue list --workspace-id 1 --status todo,in_progress
 ```
 
-### Interactive TUI
+##### Interactive TUI
 
 ```bash
 emkit
@@ -92,7 +92,7 @@ TUI supports:
 - Up/down history
 - `help` and `quit`
 
-## Common commands
+#### Common commands
 
 ```bash
 emkit doctor
@@ -133,7 +133,7 @@ emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
 emkit db exec --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
 ```
 
-## JSON output
+#### JSON output
 
 CLI responses are JSON, which makes it easy to consume from scripts and AI agents.
 
@@ -153,9 +153,9 @@ Use compact output when needed:
 emkit workspace list --compact
 ```
 
-## Troubleshooting
+#### Troubleshooting
 
-### CLI install directory is still reported as not in PATH
+##### CLI install directory is still reported as not in PATH
 
 1. Make sure your shell config contains `$HOME/.emkit` (or your selected install directory).
 2. Open a **new terminal window** (or `source` your shell config).
@@ -167,7 +167,7 @@ echo $PATH
 
 4. Re-run **Refresh** in EM Kit Settings -> Command Line Tool.
 
-### Install directory is not writable
+##### Install directory is not writable
 
 Create the directory and set ownership:
 
@@ -178,6 +178,6 @@ chown -R "$USER" ~/.emkit
 
 Then install again from EM Kit Settings.
 
-### Development mode behavior
+##### Development mode behavior
 
 If EM Kit is running via `npm run dev:electron`, the installed dev launcher can target your dev app runtime. Keep the dev app running while testing terminal commands.

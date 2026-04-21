@@ -5,14 +5,14 @@ description: Schedule recurring AI-powered tasks that run against your workspace
 
 Automations let you schedule recurring AI-powered tasks within your workspace. Define a prompt, pick a schedule, and EM Kit runs it automatically — producing reports, summaries, or alerts using your workspace data and connected integrations.
 
-## Requirements
+#### Requirements
 
 Automations use the same AI provider as [EM Copilot](/guides/em-copilot/). Before creating an automation:
 
 1. Install **Claude Code** or **Codex CLI** and authenticate in your terminal.
 2. Configure the provider in **Settings → EM Copilot**.
 
-## Tabs
+#### Tabs
 
 The Automations page has three tabs:
 
@@ -20,7 +20,7 @@ The Automations page has three tabs:
 - **History** — Run history showing past executions and their results.
 - **Templates** — Pre-built automation templates to get started quickly.
 
-## Creating an automation
+#### Creating an automation
 
 1. Click **Create automation** (or pick a template from the **Templates** tab and click **Use template**).
 2. Fill in the form:
@@ -30,15 +30,15 @@ The Automations page has three tabs:
    - **Enabled** — Toggle the automation on or off.
 3. Click **Create**.
 
-### Weekly schedule
+##### Weekly schedule
 
 Pick one or more days of the week and a time. The automation runs at the chosen time on each selected day, in your local timezone.
 
-### Interval schedule
+##### Interval schedule
 
 Set a number of hours (1–168). The automation runs repeatedly at that interval.
 
-## Model and reasoning overrides
+#### Model and reasoning overrides
 
 Expand **Model and effort** in the create/edit modal to override the default AI settings for a specific automation:
 
@@ -47,15 +47,15 @@ Expand **Model and effort** in the create/edit modal to override the default AI 
 
 These are optional — automations use your workspace defaults when not overridden.
 
-## Running an automation manually
+#### Running an automation manually
 
 Open an existing automation and click **Run now** to execute it immediately, regardless of its schedule. Manual runs are tagged as "manual" in the history.
 
-## Enabling and disabling
+#### Enabling and disabling
 
 Toggle the **Enabled** switch in the edit modal to pause or resume an automation without deleting it. Disabled automations keep their configuration and history but will not run on schedule.
 
-## History
+#### History
 
 The **History** tab shows the last 200 runs across all automations:
 
@@ -67,7 +67,7 @@ Click a run to inspect its full output (rendered as markdown), any errors, and t
 
 You can delete individual history entries using the delete icon.
 
-## Templates
+#### Templates
 
 The **Templates** tab provides ready-to-use automation configurations:
 
@@ -84,26 +84,35 @@ The **Templates** tab provides ready-to-use automation configurations:
 
 Click **Use template** to pre-fill the creation form with the template's name, prompt, and schedule. You can customize everything before saving.
 
-## Example prompts
+#### Example prompts
 
 - "Summarize the team's work log entries from this week and highlight any blockers."
 - "Check if any team member has not logged work in the past 3 days."
 - "List open issues assigned to my team that are past their due date."
 - "Prepare a brief for my 1:1 with each direct report, including recent feedback and objectives progress."
 
-## Troubleshooting
+#### Troubleshooting
 
-### Automation shows "Paused" in the next run column
+##### Automation shows "Paused" in the next run column
 
 The automation is disabled. Open it and toggle **Enabled** on.
 
-### Automation fails with an error
+##### Automation fails with an error
 
 1. Open the run in the **History** tab to see the error message.
 2. Make sure the AI provider is still configured and authenticated — run `which claude` or `which codex` in your terminal.
 3. Run `emkit doctor` to verify the CLI bridge is healthy.
 
-### No runs appear in history
+Automations surface the same structured error messages as the Copilot drawer. The most common ones:
+
+| Message | What it means | What to do |
+|---|---|---|
+| "…did not respond within 600s" | Wall-clock timeout hit. | Shorten the prompt, lower reasoning effort, or check that the provider CLI isn't waiting for login. See [EM Copilot troubleshooting](/guides/em-copilot/#claude-code-did-not-respond-within-600s) for the full checklist. |
+| "…is not authenticated" | The provider CLI lost its session. | Run `claude login` or `codex login` in your terminal. |
+| "…stopped at the max-turns limit" | The AI used its full tool-call budget without producing a final answer. | Simplify the prompt or raise the limit in your Claude Code config. |
+| "…returned an empty response" | The CLI exited cleanly but produced no text. | Re-run the automation; if it recurs, check provider status in **Settings → EM Copilot**. |
+
+##### No runs appear in history
 
 1. Confirm the automation is enabled and has a valid schedule.
 2. Make sure the EM Kit desktop app is running — the scheduler only runs while the app is open.

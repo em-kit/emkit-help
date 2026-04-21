@@ -5,6 +5,7 @@ description: Track wins and generate weekly summaries for Slack.
 
 import { Picture } from 'astro:assets';
 import WorkLogImage from '@assets/screenshots/emkit-work-log.png';
+import WorkLogEntryImage from '@assets/screenshots/emkit-work-log-entry.png';
 
 As an engineering manager, your team's impact is often invisible unless you actively surface it. A work log is one of the most effective tools for making that impact visible, both to your team and to the rest of the organization.
 
@@ -42,11 +43,11 @@ Each entry supports:
 
 For **Team Work Log**, at least one **Contributor** is required.
 
+<Picture 
+    src={WorkLogEntryImage} 
+    alt="Work Log Entry"
+/>
+
 #### Generate weekly Slack draft
 
-1. Open **Team Work Log**.
-2. Click the summary action to generate a draft.
-3. Pick week start and end dates.
-4. Click **Generate**, then **Copy** to clipboard.
-
-The draft includes manager achievements and team wins.
+You can open EM Kit Copilot with a pre-filled prompt to generate a weekly summary from Work Log to be shared in Slack.
