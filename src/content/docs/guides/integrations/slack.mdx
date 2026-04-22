@@ -7,14 +7,14 @@ The Slack integration is used exclusively by the [EM Kit Copilot](/guides/em-cop
 
 Slack is **not** used elsewhere in EM Kit — it's purely an AI-assist channel.
 
-#### Requirements
+## Requirements
 
 You'll need either:
 
 - A **Slack OAuth token** (user or bot) — the simplest option and works everywhere, including headless automation runs, or
 - Claude Code's **Slack MCP connector** configured at user scope — no token stored in EM Kit, reuses the OAuth you ran once in Claude Code.
 
-#### Configure the integration
+## Configure the integration
 
 1. Open **Settings -> Integrations**.
 2. Click **Settings** on the **Slack** card.
@@ -25,12 +25,12 @@ You'll need either:
 5. Pick an **Access method** (Claude Code or Codex) — this is the AI tool that provides the Slack MCP connection when the Copilot runs.
 6. Click **Save**, then **Test** to verify.
 
-##### OAuth token: user vs bot
+### OAuth token: user vs bot
 
 - **User token (`xoxp-`)** — acts as you. Full access to every channel you can see, plus message search. Recommended for most managers.
 - **Bot token (`xoxb-`)** — acts as the bot. Only sees public channels and private channels the bot has been invited to. No search.
 
-##### MCP connector setup
+### MCP connector setup
 
 If you pick **MCP connector**, register the Slack MCP server at user scope so EM Kit can see it from any working directory:
 
@@ -42,14 +42,14 @@ Then start `claude` in a terminal, run `/mcp`, pick `slack`, and complete the br
 
 > Headless runs (scheduled automations) may silently fail if the Slack OAuth token expires. If you rely on automations, prefer **OAuth token** mode.
 
-#### Troubleshooting
+## Troubleshooting
 
-##### Copilot can't reach Slack
+### Copilot can't reach Slack
 
 1. Click **Test** in the Slack drawer to re-check the status.
 2. If using **OAuth token**, confirm the token scopes match the list above.
 3. If using **MCP connector**, run `claude mcp list` and verify `slack` is **Connected**.
 
-##### How to remove the integration
+### How to remove the integration
 
 Open the Slack drawer and click **Disconnect**. This clears the stored token and configuration.

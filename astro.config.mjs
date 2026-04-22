@@ -87,7 +87,8 @@ export default defineConfig({
 						},
 						{ label: 'EM Copilot', slug: 'guides/em-copilot' },
 						{ label: 'EM Kit CLI', slug: 'guides/emkit-cli' },
-						{ label: 'EM Kit MCP', slug: 'guides/em-kit-mcp' }
+						{ label: 'EM Kit MCP', slug: 'guides/em-kit-mcp' },
+						{ label: 'Data Storage', slug: 'guides/data-storage' }
 					],
 				},
 				{

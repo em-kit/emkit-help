@@ -79,14 +79,34 @@
   letter-spacing: -0.015em;
 }
 
-/* Match landing: h1/h2 in Source Serif 4, body + smaller headings in Inter */
-.sl-markdown-content :is(h1, h2),
-.content-panel :is(h1, h2),
+/* Match landing: only the main page title uses Source Serif 4. All other headings inherit Inter. */
+.sl-markdown-content h1,
+.content-panel h1,
 h1.hero-title,
 .hero h1 {
   font-family: 'Source Serif 4', ui-serif, Georgia, serif;
   font-weight: 600;
   letter-spacing: -0.015em;
+}
+
+/* Keep section headings (h2/h3) compact so they match the previous h4/h5 look
+   while still being picked up by Starlight's "On this page" table of contents. */
+.sl-markdown-content h2 {
+  font-family: var(--sl-font);
+  font-size: var(--sl-text-h4);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: normal;
+  margin-top: 1.5em;
+}
+
+.sl-markdown-content h3 {
+  font-family: var(--sl-font);
+  font-size: var(--sl-text-h5);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: normal;
+  margin-top: 1.25em;
 }
 
 .shadow-warm {

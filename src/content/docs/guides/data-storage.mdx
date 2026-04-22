@@ -1,0 +1,135 @@
+---
+title: Data Storage
+description: Where EM Kit stores your data, how to back it up, and how to move it.
+---
+
+EM Kit is **local-first**: all your workspace data lives in a single SQLite database on your machine. Nothing is sent to the cloud — only the integrations and AI providers you explicitly configure ever see your data.
+
+## Where your data lives
+
+By default, EM Kit stores everything under the Electron user data directory:
+
+### macOS
+
+```text
+~/Library/Application Support/EM Kit/data/
+```
+
+### Windows
+
+```text
+%APPDATA%\EM Kit\data\
+```
+
+### Linux
+
+```text
+~/.config/EM Kit/data/
+```
+
+Inside that directory you will find:
+
+| File / folder | Purpose |
+|---|---|
+| `emkit.db` | Main SQLite database — workspaces, members, notes, issues, feedback, reviews, work log, etc. |
+| `emkit.db-wal` | Write-Ahead Log file used by SQLite in WAL mode for durable, concurrent writes. |
+| `emkit.db-shm` | Shared-memory index for the WAL file. Regenerated automatically. |
+| `snapshots/` | Point-in-time database backups (see below). |
+
+The three `emkit.db*` files belong together — if you copy the database manually, copy all of them. The preferred way to back up the database is to create a **snapshot**, which consolidates everything into a single file.
+
+The app also keeps a small `config.json` at the root of the user data directory (one level above `data/`). It stores the active data directory path so the app can find your database even after you move it.
+
+## Viewing the current location
+
+Open **Settings → Storage** to see the active data directory. The path shown at the top is exactly where `emkit.db` and `snapshots/` live on disk.
+
+## Snapshots (backups)
+
+Snapshots are consistent, standalone copies of your database. They are created using SQLite's online backup API, which safely captures the database even while the app is running and writing.
+
+### Creating a snapshot
+
+1. Open **Settings → Storage**.
+2. Click **Create Snapshot**.
+
+A new file named `emkit-snapshot-YYYY-MM-DDTHH-MM-SSZ.db` is written into the `snapshots/` folder. Snapshots are standard SQLite databases — you can open them with any SQLite client.
+
+### Restoring a snapshot
+
+1. Open **Settings → Storage**.
+2. Find the snapshot you want to restore and click **Revert**.
+3. Confirm in the dialog.
+
+Reverting **replaces your current database** with the snapshot. Any data created or modified after that snapshot will be lost, so create a fresh snapshot first if you want a safety net. The app reopens the database connection automatically after a restore.
+
+### Deleting a snapshot
+
+Click the trash icon next to a snapshot entry. This only removes the backup file — your active database is untouched.
+
+### Recommended backup strategy
+
+Snapshots live next to the database in `data/snapshots/`, so a disk failure will take both with it. For durable backups:
+
+- Create a snapshot before major actions (importing data, running a bulk update, upgrading EM Kit).
+- Periodically copy the `snapshots/` folder (or the snapshot `.db` files) to cloud storage, an external drive, or a location backed up by Time Machine / your backup tool.
+- Alternatively, point EM Kit's data directory at a folder that is already backed up (see below).
+
+## Changing the data location
+
+You can move your data anywhere on disk — for example, into a synced folder (iCloud Drive, Dropbox, etc.) or onto an external drive.
+
+1. Open **Settings → Storage → Change Location**.
+2. Pick a target folder.
+3. Confirm **Move & Restart**.
+
+EM Kit will:
+
+1. Back up the current database into the new folder as `emkit.db` (using the same online backup API as snapshots).
+2. Copy the `snapshots/` folder to the new location.
+3. Persist the new path in `config.json` so it is used on every subsequent launch.
+4. Restart the app.
+
+The original data is **not deleted** from the previous location — you can remove it manually once you have verified the new location works.
+
+:::caution
+Avoid placing the database inside a real-time sync folder that may write to `emkit.db` from multiple machines at once. SQLite tolerates being on synced storage, but concurrent writes from two running copies of EM Kit will corrupt the database. Only one instance of EM Kit should ever open a given database at a time.
+:::
+
+## Overriding the location via environment variable
+
+For advanced or scripted setups, set `EMKIT_DATA_DIR` before launching the app or CLI:
+
+```bash
+export EMKIT_DATA_DIR="$HOME/Work/emkit-data"
+emkit doctor
+```
+
+- If set, this takes precedence over the value stored in `config.json`.
+- The value can point at a directory or directly at an `.db` file — in the latter case, EM Kit uses the file's parent directory.
+- Unset the variable to fall back to the configured (or default) location.
+
+## Direct SQL access
+
+The database is a standard SQLite 3 file — you can inspect or script it with any SQLite tool. The EM Kit CLI exposes the same connection the app uses:
+
+```bash
+emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
+emkit db exec  --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
+```
+
+See the [EM Kit CLI guide](/guides/emkit-cli/) for the full command set.
+
+## Troubleshooting
+
+### "Database is locked" or app fails to start
+
+Make sure only one instance of EM Kit is running. If the app crashed and left a stale lock, quit every EM Kit process, then relaunch. The WAL and SHM files will be rebuilt automatically.
+
+### Moved the data directory manually and the app can't find it
+
+Edit `config.json` next to the user data directory (one level above `data/`) and set `"dataDir"` to the new absolute path, or start the app once with `EMKIT_DATA_DIR` pointing at the new location and then use **Settings → Storage → Change Location** to persist it.
+
+### Snapshot restore didn't pick up
+
+Snapshots are applied immediately and the connection reopens in place. If the UI still shows old data, reload the window (`Cmd/Ctrl + R`) — the in-memory caches will refresh against the restored database.

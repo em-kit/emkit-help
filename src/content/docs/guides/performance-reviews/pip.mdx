@@ -3,11 +3,15 @@ title: Performance Improvement Plan (PIP)
 description: Manage performance improvement plans for team members in EM Kit.
 ---
 
+import { Picture } from 'astro:assets';
+import CreatePIPImage from '@assets/screenshots/emkit-create-pip.png';
+import PIPImage from '@assets/screenshots/emkit-pip.png';
+
 A Performance Improvement Plan (PIP) is a formal, time-boxed agreement between a manager and a team member who is not meeting expectations. It documents the areas of concern, sets clear objectives with measurable targets, and establishes a timeline for improvement. Regular check-ins during 1:1 meetings track progress throughout the plan.
 
 PIPs are not punitive — they are a structured way to give a team member every opportunity to succeed by making expectations explicit and providing consistent feedback.
 
-#### Creating a PIP
+## Creating a PIP
 
 Go to **My Team → Member → Performance Reviews**, then scroll to the **Personal Improvement Plans** section.
 
@@ -16,13 +20,23 @@ Go to **My Team → Member → Performance Reviews**, then scroll to the **Perso
 3. Select a **Date Range** for the plan duration.
 4. Click **Create**.
 
+<Picture 
+    src={CreatePIPImage} 
+    alt="Create PIP"
+/>
+
 You are taken to the PIP detail page where you can fill in the context and objectives.
 
-#### PIP detail page
+## PIP detail page
 
 The detail page has a header showing the title, date range, and controls for status and outcome. Below that are three tabs.
 
-##### Status
+<Picture 
+    src={PIPImage} 
+    alt="PIP Details"
+/>
+
+### Status
 
 A PIP can be in one of three statuses:
 
@@ -32,7 +46,7 @@ A PIP can be in one of three statuses:
 
 Change the status at any time using the dropdown at the top of the detail page.
 
-##### Final outcome
+### Final outcome
 
 When a PIP is completed, set a final outcome to record the result:
 
@@ -44,7 +58,7 @@ When a PIP is completed, set a final outcome to record the result:
 
 The outcome is optional and can be cleared.
 
-#### Overview tab
+## Overview tab
 
 Use the Overview tab to document the context behind the PIP. All three fields support markdown and autosave as you type.
 
@@ -52,11 +66,11 @@ Use the Overview tab to document the context behind the PIP. All three fields su
 - **Impact** — Explain the impact of the underperformance on the team or organization.
 - **Overall Comment** — Add any additional context, agreements, or notes.
 
-#### Objectives tab
+## Objectives tab
 
 The Objectives tab shows objectives that overlap with the PIP period. These are standard EM Kit objectives filtered to the PIP's date range.
 
-##### Adding objectives
+### Adding objectives
 
 Click **New Objective** to create an objective. The PIP's title and date range are automatically applied to the new objective. Each objective can have:
 
@@ -64,11 +78,11 @@ Click **New Objective** to create an objective. The PIP's title and date range a
 - **Status** — On Track, At Risk, Off Track, or Completed
 - **Key Results** — Measurable targets within the objective
 
-##### AI-suggested objectives
+### AI-suggested objectives
 
 Click the **Suggest** button to open the Copilot assistant with a prompt pre-filled with the PIP's context (title, dates, and reason). The assistant suggests 2–3 focused, measurable objectives with specific key results and can create them for you if you approve.
 
-#### Check-ins tab
+## Check-ins tab
 
 The Check-ins tab is a read-only audit trail of all progress assessments recorded during 1:1 meetings. Each row shows:
 
@@ -76,7 +90,7 @@ The Check-ins tab is a read-only audit trail of all progress assessments recorde
 - **Outcome** — The progress rating for that check-in (same 1/3, 2/3, 3/3 scale as the final outcome).
 - **Notes** — Markdown notes captured during the check-in.
 
-##### Recording check-ins during 1:1 meetings
+### Recording check-ins during 1:1 meetings
 
 Check-ins are created from within a 1:1 meeting, not from the PIP page. When a team member has an active PIP, a **PIP check-in section** appears automatically in the 1:1 detail page.
 
@@ -87,12 +101,12 @@ Check-ins are created from within a 1:1 meeting, not from the PIP page. When a t
 
 Each check-in is linked to a specific 1:1, creating a traceable timeline of the member's progress throughout the plan.
 
-#### Editing and deleting
+## Editing and deleting
 
 - Click the **edit** button in the detail page header to change the title or date range.
 - Click **delete** to permanently remove the PIP and all its associated check-ins.
 
-#### Typical workflow
+## Typical workflow
 
 1. **Create** the PIP with a title and date range.
 2. **Document** the reason, impact, and any notes in the Overview tab.

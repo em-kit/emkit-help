@@ -5,24 +5,22 @@ description: Generate and review workspace activity reports.
 
 EM Kit offers a few pre-built reports to help you understand your team's activity and performance. These reports are generated on demand using your workspace data and can be scheduled as automations for regular insights.
 
-#### Available report
+## Available reports
 
-Current report type:
+Current report types:
 
-- **GitHub Activity Comparison**
+- **GitHub Activity Comparison** — compares PRs, merged PRs, and reviews across team members. Requires a GitHub handle on each member profile.
+- **Jira Bug Ticket Comparison** — compares bug tickets by status (To Do, In Progress, Done) and priority (Critical, High, Medium, Low) across team members. Requires a Jira account ID on each member profile.
 
+## Create a reporting
 
-This report compares PRs, merged PRs, and reviews across team members.
-
-#### Create a reporting
-
-1. Open **GitHub Activity Comparison**.
+1. Open the report type you want to run.
 2. Click **New Reporting**.
 3. Select a date range.
 4. Optionally enable force refresh to regenerate an existing period.
 5. Click **Create**.
 
-#### Manage report history
+## Manage report history
 
 From the report list, you can:
 
@@ -30,13 +28,11 @@ From the report list, you can:
 - Delete a saved reporting snapshot
 - Monitor status (`Pending`, `Processing`, `Completed`, `Error`)
 
-#### Report detail page
+## Report detail page
 
 The detail page shows:
 
 - Real-time progress while processing
-- Per-member metrics table (PRs, merged PRs, reviews)
+- Per-member metrics table (PRs, merged PRs, reviews for GitHub; total bugs, status breakdown, priority breakdown for Jira)
 - Top performer tag
-- Excluded members and reasons
-
-> Screenshot placeholder: add report history table and report detail page here.
+- Excluded members and reasons (missing GitHub handle or Jira account ID)

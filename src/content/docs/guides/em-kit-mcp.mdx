@@ -7,7 +7,7 @@ description: Connect Claude Code, Cursor, or Codex to EM Kit through the embedde
 
 This is the recommended setup if you want AI tools to fetch EM Kit data on demand instead of receiving a large prompt snapshot.
 
-#### What the MCP server exposes
+## What the MCP server exposes
 
 The EM Kit MCP server exposes tools for:
 
@@ -29,7 +29,7 @@ The EM Kit MCP server exposes tools for:
 
 Read-write tools are annotated so that MCP clients can prompt for confirmation before executing them.
 
-#### Requirements
+## Requirements
 
 Before configuring MCP:
 
@@ -45,7 +45,7 @@ emkit mcp
 
 It will wait for an MCP client on standard input/output. You normally do **not** run this by hand for day-to-day use. Your AI tool launches it automatically.
 
-#### Claude Code setup
+## Claude Code setup
 
 Claude Code supports local stdio MCP servers.
 
@@ -76,7 +76,7 @@ Use the EM Kit MCP tools to summarize workspace 1 and identify the top follow-up
 
 Reference: [Claude Code MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp)
 
-#### Cursor setup
+## Cursor setup
 
 Cursor supports MCP servers through `mcp.json`.
 
@@ -118,7 +118,7 @@ Use the EM Kit MCP tools to inspect my workspace and summarize open issues and p
 
 Reference: [Cursor MCP documentation](https://docs.cursor.com/en/context/mcp)
 
-#### Codex setup
+## Codex setup
 
 Codex supports MCP configuration in both the CLI and the IDE extension.
 
@@ -152,9 +152,9 @@ Use the EM Kit MCP server to review workspace 1 and summarize the current manage
 
 Reference: [Codex MCP documentation](https://developers.openai.com/resources/docs-mcp)
 
-#### Troubleshooting
+## Troubleshooting
 
-##### MCP client cannot find `emkit`
+### MCP client cannot find `emkit`
 
 If Claude Code, Cursor, or Codex cannot launch the MCP server:
 
@@ -162,7 +162,7 @@ If Claude Code, Cursor, or Codex cannot launch the MCP server:
 2. If needed, use the full executable path in your MCP configuration.
 3. Re-run `emkit help` manually to verify the CLI itself is working.
 
-##### MCP server starts but no EM Kit data is returned
+### MCP server starts but no EM Kit data is returned
 
 The MCP server relies on the local EM Kit desktop app runtime.
 

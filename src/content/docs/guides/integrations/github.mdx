@@ -5,13 +5,13 @@ description: Connect EM Kit to GitHub to surface pull request activity across th
 
 The GitHub integration pulls pull request activity from your organization so EM Kit can show real engineering evidence next to your notes, 1:1s, and reviews.
 
-#### What the integration powers
+## What the integration powers
 
 - **One-on-Ones** — the **Recent Pull Requests** panel lists the team member's latest PRs with filters and grouping, so you can anchor the conversation in concrete work.
 - **Daily Meeting Notes** — expand **Recent Pull Requests** to load team PR activity around the note's date, perfect for stand-ups and daily summaries.
 - **Performance Reviews** — scan recent PR activity during the review period to catch **missed work log entries** before you finalize evidence.
 
-#### Requirements
+## Requirements
 
 EM Kit currently authenticates through the **GitHub CLI** (`gh`). Token and GitHub App modes are reserved for future support.
 
@@ -21,7 +21,7 @@ EM Kit currently authenticates through the **GitHub CLI** (`gh`). Token and GitH
 
 Make sure `gh` is available on your terminal `PATH`.
 
-#### Configure the integration
+## Configure the integration
 
 1. Open **Settings -> Integrations**.
 2. Click **Settings** on the **GitHub** card.
@@ -30,15 +30,15 @@ Make sure `gh` is available on your terminal `PATH`.
 5. Click **Save**.
 6. Click **Test** to verify the connection. When the status shows **Connected** and your user handle appears, you're done.
 
-#### Troubleshooting
+## Troubleshooting
 
-##### CLI shows "Not installed" or "Not authenticated"
+### CLI shows "Not installed" or "Not authenticated"
 
 1. Run `which gh` to confirm the CLI is on `PATH`.
 2. Re-run `gh auth login` and complete the browser flow.
 3. Click **Test** in the GitHub drawer to re-check.
 
-##### Organization not verified
+### Organization not verified
 
 1. Make sure the authenticated GitHub user is a member of the organization.
 2. Confirm the organization name matches exactly (no trailing slash, no URL).
