@@ -1,49 +1,27 @@
 ---
 title: EM Kit MCP
-description: Connect Claude Code, Cursor, or Codex to EM Kit through the embedded MCP server.
+description: Connect Claude Code, Cursor, or Codex to EM Kit through the embedded MCP server, and reference every tool it exposes.
 ---
 
 `emkit mcp` starts a local **stdio MCP server** backed by the running EM Kit desktop app.
 
-This is the recommended setup if you want AI tools to fetch EM Kit data on demand instead of receiving a large prompt snapshot.
-
-## What the MCP server exposes
-
-The EM Kit MCP server exposes tools for:
-
-**Read-only**
-- Listing workspaces
-- Getting a workspace summary
-- Listing team members
-- Listing feedback to share
-- Listing daily notes
-- Listing work log entries
-- Getting the latest review period
-- Listing issues (with filters for status, priority, assignee)
-- Getting a single issue by ID
-
-**Read-write**
-- Creating an issue
-- Updating an issue (status, priority, assignee, due date, etc.)
-- Career path management (levels, skills)
-
-Read-write tools are annotated so that MCP clients can prompt for confirmation before executing them.
+This is the recommended setup if you want AI tools to fetch EM Kit data on demand instead of pasting a large prompt snapshot.
 
 ## Requirements
 
 Before configuring MCP:
 
-1. Install the EM Kit CLI from **Settings -> Command Line Tool**.
+1. Install the EM Kit CLI from **Settings → Command Line Tool**.
 2. Make sure `emkit` is available in your terminal `PATH`.
 3. Keep the EM Kit desktop app installed locally.
 
-You can test the MCP entrypoint directly:
+You can sanity-check the MCP entrypoint directly:
 
 ```bash
 emkit mcp
 ```
 
-It will wait for an MCP client on standard input/output. You normally do **not** run this by hand for day-to-day use. Your AI tool launches it automatically.
+It will wait for an MCP client on standard input/output. You normally do **not** run this by hand for day-to-day use — your AI tool launches it automatically.
 
 ## Claude Code setup
 
@@ -68,12 +46,6 @@ If you want the server only in the current project, use:
 claude mcp add emkit --scope project -- emkit mcp
 ```
 
-Once connected, ask Claude to use EM Kit tools explicitly, for example:
-
-```text
-Use the EM Kit MCP tools to summarize workspace 1 and identify the top follow-up actions.
-```
-
 Reference: [Claude Code MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp)
 
 ## Cursor setup
@@ -96,7 +68,7 @@ On macOS and Linux, add this to `~/.cursor/mcp.json`:
 
 Restart Cursor after saving the file.
 
-If your EM Kit CLI is not on `PATH`, use the full executable path instead, for example:
+If your EM Kit CLI is not on `PATH`, use the full executable path:
 
 ```json
 {
@@ -108,12 +80,6 @@ If your EM Kit CLI is not on `PATH`, use the full executable path instead, for e
     }
   }
 }
-```
-
-Then ask Cursor's agent to use the EM Kit MCP server, for example:
-
-```text
-Use the EM Kit MCP tools to inspect my workspace and summarize open issues and pending feedback.
 ```
 
 Reference: [Cursor MCP documentation](https://docs.cursor.com/en/context/mcp)
@@ -144,19 +110,163 @@ args = ["mcp"]
 
 If `emkit` is not on `PATH`, replace `command = "emkit"` with the full executable path.
 
-Then prompt Codex clearly, for example:
+Reference: [Codex MCP documentation](https://developers.openai.com/resources/docs-mcp)
+
+## Tool reference
+
+Read-write tools are annotated so MCP clients can prompt for confirmation before executing them. Tools marked **destructive** remove data and should always be confirmed.
+
+### System
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_doctor` | Show EM Kit app and database runtime status. | Read |
+
+### Workspaces
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_workspaces` | List EM Kit workspaces. | Read |
+| `emkit_get_workspace` | Get a single workspace by ID. | Read |
+| `emkit_get_workspace_summary` | Return a compact read-only summary of a workspace for AI analysis (counts + latest review period). | Read |
+| `emkit_create_workspace` | Create a new workspace with the given name. | Write |
+| `emkit_update_workspace` | Update an existing workspace name. | Write |
+| `emkit_delete_workspace` | Delete a workspace by ID. | Destructive |
+
+### Team members
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_members` | List team members for a workspace. | Read |
+| `emkit_list_team_members` | List team members for a workspace (AI-friendly with `limit`). | Read |
+| `emkit_get_member` | Get a single team member by ID. | Read |
+| `emkit_create_member` | Create a new team member (requires `workspace_id`, `name`, `email`). | Write |
+| `emkit_update_member` | Update an existing team member. | Write |
+| `emkit_delete_member` | Delete a team member by ID. | Destructive |
+
+### Work log
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_work_log_entries` | List work log entries with filters for category, contributor, and date range. | Read |
+| `emkit_list_work_log` | List workspace work log entries, optionally filtered by recency or category. | Read |
+| `emkit_get_work_log_entry` | Get a single work log entry by ID. | Read |
+| `emkit_create_work_log_entry` | Create a new work log entry. Accepts `links` and `contributors` arrays. | Write |
+| `emkit_update_work_log_entry` | Update an existing work log entry. | Write |
+| `emkit_delete_work_log_entry` | Delete a work log entry by ID. | Destructive |
+
+### Issues and comments
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_issues` | List issues for a workspace, optionally filtered by status, priority, or assignee. | Read |
+| `emkit_get_issue` | Get a single issue by ID. | Read |
+| `emkit_create_issue` | Create a new issue. Supports status, priority, assignee, due date, parent issue. | Write |
+| `emkit_update_issue` | Update an existing issue. | Write |
+| `emkit_list_issue_comments` | List all comments for a specific issue. | Read |
+| `emkit_create_issue_comment` | Create a new comment on an issue (supports `author_type: user|copilot`). | Write |
+| `emkit_update_issue_comment` | Update the content of an existing issue comment. | Write |
+| `emkit_delete_issue_comment` | Delete an issue comment by ID. | Write |
+
+### Notes
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_notes` | List notes for a workspace with filters for note type, member, date range, or recent days. | Read |
+| `emkit_get_note` | Get a single note by ID, including note type, member, and tags. | Read |
+| `emkit_create_note` | Create a new note (markdown content, optional note type / member / tags). | Write |
+| `emkit_update_note` | Update an existing note. `note_type_id` and `member_id` are immutable once set. | Write |
+| `emkit_delete_note` | Delete a note by ID. | Write |
+| `emkit_list_note_types` | List all note types (Daily, Meeting, 1:1, ...) in a workspace. | Read |
+| `emkit_get_note_type` | Get one note type by ID. | Read |
+| `emkit_create_note_type` | Create a new note type for a workspace. | Write |
+| `emkit_update_note_type` | Update a note type. System note types cannot be modified. | Write |
+| `emkit_delete_note_type` | Delete a note type. Fails if notes reference it or it is system-defined. | Destructive |
+
+### Feedback
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_feedback` | List continuous feedback entries for a workspace. | Read |
+| `emkit_create_feedback` | Create a continuous feedback entry (recognition or improvement). | Write |
+
+### Objectives
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_objectives` | List objectives with key results for a team member. | Read |
+| `emkit_get_objective` | Get a single objective with its key results. | Read |
+| `emkit_create_objective` | Create a new objective, optionally with initial key results. | Write |
+| `emkit_update_objective` | Update an existing objective. | Write |
+
+### One-on-ones
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_one_on_ones` | List one-on-one meetings for a team member (date, mood, notes, agenda). | Read |
+| `emkit_get_one_on_one` | Get a single one-on-one meeting by ID. | Read |
+
+### Review periods and performance reviews
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_get_latest_review_period` | Return the latest performance review period and its summaries. | Read |
+| `emkit_create_review_period` | Create a new performance review period for a workspace. | Write |
+| `emkit_list_performance_reviews` | List performance reviews for a team member. | Read |
+| `emkit_get_performance_review` | Get a performance review with its peer feedbacks. | Read |
+| `emkit_create_performance_review` | Create a new performance review for a member in a period. | Write |
+| `emkit_update_performance_review` | Update a performance review (status, rating, notes). | Write |
+| `emkit_list_peer_feedbacks` | List peer feedbacks for a performance review. | Read |
+| `emkit_get_peer_feedback` | Get a single peer feedback by ID. | Read |
+| `emkit_list_pips` | List performance improvement plans for a team member. | Read |
+| `emkit_get_pip` | Get a PIP with its check-ins and outcome assessments. | Read |
+
+### Career path
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_career_path_levels` | List all job levels defined in the career path. | Read |
+| `emkit_update_career_path_level` | Update a job level (name, identifier, seniority, description, skill expectations). | Write |
+| `emkit_list_career_path_skills` | List all skills defined in the career path. | Read |
+| `emkit_get_career_path_skill` | Get a single career path skill, including proficiency levels. | Read |
+| `emkit_create_career_path_skill` | Create a new skill with optional proficiency levels. | Write |
+| `emkit_update_career_path_skill` | Update an existing career path skill. | Write |
+| `emkit_get_team_career_positioning` | Compare team member skill assessments to level expectations. | Read |
+| `emkit_upsert_member_skill_assessment` | Create or update a member's skill assessment. | Write |
+
+### Reports
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_list_reports` | List stored report snapshots for a workspace. | Read |
+| `emkit_get_report` | Get a single stored report snapshot by ID. | Read |
+| `emkit_delete_report` | Delete a stored report snapshot by ID. | Destructive |
+
+### Inbox
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_create_inbox_item` | Create an inbox item for the engineering manager to review (suggestion, action, or info). Supports `dedup_key` to avoid duplicates. | Write |
+
+## Example prompts
+
+Once connected, ask the agent to use EM Kit tools explicitly:
 
 ```text
-Use the EM Kit MCP server to review workspace 1 and summarize the current management signals.
+Use the EM Kit MCP tools to summarize workspace 1 and identify the top follow-up actions.
 ```
 
-Reference: [Codex MCP documentation](https://developers.openai.com/resources/docs-mcp)
+```text
+Use emkit_list_issues on workspace 1 (status todo,in_progress) and draft a standup update.
+```
+
+```text
+Use emkit_get_latest_review_period on workspace 1 and flag any member whose review is still in preparation.
+```
 
 ## Troubleshooting
 
 ### MCP client cannot find `emkit`
-
-If Claude Code, Cursor, or Codex cannot launch the MCP server:
 
 1. Run `which emkit` to confirm the CLI is on `PATH`.
 2. If needed, use the full executable path in your MCP configuration.

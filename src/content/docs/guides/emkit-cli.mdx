@@ -1,6 +1,6 @@
 ---
 title: EM Kit CLI
-description: Install and use the EM Kit Command Line Tool for local-first workflows.
+description: Install, configure, and use the EM Kit command-line tool to query and manage your local EM Kit data.
 ---
 
 The **EM Kit CLI** lets you query and update EM Kit data from your terminal.
@@ -8,11 +8,12 @@ The **EM Kit CLI** lets you query and update EM Kit data from your terminal.
 - Works with the EM Kit desktop app runtime.
 - If EM Kit is not running, the first CLI command launches it automatically.
 - Supports both one-shot commands and an interactive TUI.
-- Focuses on EM Kit local data (no GitHub CLI replacement).
+- Returns JSON responses so it's easy to script or pipe into AI agents.
+- Focuses on EM Kit local data (it is not a GitHub CLI replacement).
 
 ## Install from EM Kit desktop
 
-1. Open **Settings -> Command Line Tool**.
+1. Open **Settings → Command Line Tool**.
 2. Click **Install Command Line Tool**.
 3. Confirm the install location.
 
@@ -72,9 +73,8 @@ If you want to connect EM Kit to Claude Code, Cursor, or Codex through MCP, use 
 ```bash
 emkit doctor
 emkit workspace list
+emkit workspace summary --id 1
 emkit member list --workspace-id 1
-emkit ai workspace-summary --workspace-id 1
-emkit ai feedback --workspace-id 1 --status to_share
 emkit issue list --workspace-id 1 --status todo,in_progress
 ```
 
@@ -86,51 +86,16 @@ emkit
 emkit tui
 ```
 
-TUI supports:
+The TUI supports tab autocomplete, up/down history, and the `help` and `quit` commands.
 
-- Tab autocomplete
-- Up/down history
-- `help` and `quit`
+## Global options
 
-## Common commands
+These flags apply to any command.
 
 ```bash
-emkit doctor
-emkit mcp
-
-emkit ai workspace-summary --workspace-id 1
-emkit ai team-members --workspace-id 1 --limit 20
-emkit ai feedback --workspace-id 1 --status to_share
-emkit ai daily-notes --workspace-id 1 --days 14
-emkit ai work-log --workspace-id 1 --days 14
-emkit ai latest-review-period --workspace-id 1
-
-emkit workspace list
-emkit workspace get --id 1
-emkit workspace create --name "Platform"
-emkit workspace update --id 1 --name "Platform Team"
-emkit workspace delete --id 1
-
-emkit member list --workspace-id 1
-emkit member get --id 2
-emkit member create --input '{"workspace_id":1,"name":"Jane Doe"}'
-emkit member update --id 2 --input '{"name":"Jane D."}'
-emkit member delete --id 2
-
-emkit issue list --workspace-id 1
-emkit issue list --workspace-id 1 --status todo,in_progress
-emkit issue list --workspace-id 1 --priority urgent,high --assignee-type me
-emkit issue get --id 5
-emkit issue create --input '{"workspace_id":1,"title":"Fix login bug","priority":"high"}'
-emkit issue update --id 5 --input '{"status":"in_progress"}'
-emkit issue delete --id 5
-
-emkit report history --workspace-id 1
-emkit report get --report-id 12
-emkit report delete --report-id 12
-
-emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
-emkit db exec --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
+--input <json|@file|@->   # JSON payload for create/update commands (inline, @file, or @- for stdin)
+--compact                 # Print responses as a single line of JSON
+--data-dir <path>         # Override data directory (only honored when the app starts)
 ```
 
 ## JSON output
@@ -147,10 +112,220 @@ CLI responses are JSON, which makes it easy to consume from scripts and AI agent
 }
 ```
 
-Use compact output when needed:
+Use compact output when piping:
 
 ```bash
 emkit workspace list --compact
+```
+
+## Command reference
+
+Commands are grouped by section, matching the `emkit help` output. In the syntax below:
+
+- `<value>` marks a required argument.
+- `[--flag <value>]` marks an optional flag.
+- `<a|b|c>` marks an enum — one of the listed values.
+- Payloads passed via `--input` accept inline JSON, `@file.json`, or `@-` to read from stdin.
+
+### System
+
+```bash
+emkit doctor                              # Show app + database runtime status
+emkit mcp                                 # Run EM Kit as an MCP stdio server
+emkit help                                # Show command help
+emkit quit                                # Exit TUI mode (TUI only)
+
+emkit db query --sql <sql> [--params <json>]   # Run a SELECT and return rows
+emkit db exec  --sql <sql> [--params <json>]   # Run a write statement (INSERT/UPDATE/DELETE)
+```
+
+Example:
+
+```bash
+emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
+emkit db exec --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
+```
+
+### Workspace
+
+```bash
+emkit workspace list                               # List workspaces
+emkit workspace get     --id <id>                  # Get one workspace
+emkit workspace create  --name <name>              # Create workspace
+emkit workspace update  --id <id> --name <name>    # Rename workspace
+emkit workspace delete  --id <id>                  # Delete workspace
+emkit workspace summary --id <id>                  # Counts + latest review period snapshot
+
+emkit member list   --workspace-id <id> [--limit <n>]        # List team members
+emkit member get    --id <id>                                 # Get one team member
+emkit member create --input <json>                            # Create team member
+emkit member update --id <id> --input <json>                  # Update team member
+emkit member delete --id <id>                                 # Delete team member
+```
+
+Example:
+
+```bash
+emkit workspace create --name "Platform"
+emkit member create --input '{"workspace_id":1,"name":"Jane Doe","email":"jane@acme.com"}'
+emkit workspace summary --id 1
+```
+
+### Delivery
+
+#### Work log
+
+```bash
+emkit work-log list   --workspace-id <id> \
+                      [--category <manager|team>] [--contributor-id <id>] \
+                      [--start-date <YYYY-MM-DD>] [--end-date <YYYY-MM-DD>] \
+                      [--days <n>] [--limit <n>]
+emkit work-log get    --id <id>
+emkit work-log create --input <json>
+emkit work-log update --id <id> --input <json>
+emkit work-log delete --id <id>
+```
+
+Example:
+
+```bash
+emkit work-log list --workspace-id 1 --category manager --days 14 --limit 20
+emkit work-log create --input '{
+  "workspace_id": 1,
+  "category": "team",
+  "date": "2026-04-24",
+  "title": "Shipped onboarding refresh",
+  "contributors": [{ "member_id": 3, "sentiment": "positive" }]
+}'
+```
+
+#### Issues and comments
+
+```bash
+emkit issue list   --workspace-id <id> \
+                   [--status <s1,s2>] [--priority <p1,p2>] \
+                   [--assignee-type <me|member|copilot>] [--assignee-member-id <id>]
+emkit issue get    --id <id>
+emkit issue create --input <json>
+emkit issue update --id <id> --input <json>
+emkit issue delete --id <id>
+
+emkit issue-comment list   --issue-id <id>
+emkit issue-comment create --input <json>        # issue_id, content required; author_type: user|copilot
+emkit issue-comment update --id <id> --content <text>
+emkit issue-comment delete --id <id>
+```
+
+Example:
+
+```bash
+emkit issue list --workspace-id 1 --priority urgent,high --assignee-type me
+emkit issue create --input '{"workspace_id":1,"title":"Fix login bug","priority":"high"}'
+emkit issue update --id 5 --input '{"status":"in_progress"}'
+```
+
+#### Notes
+
+```bash
+emkit note list   --workspace-id <id> \
+                  [--note-type-id <id>] [--member-id <id>] \
+                  [--start-date <YYYY-MM-DD>] [--end-date <YYYY-MM-DD>] \
+                  [--days <n>] [--limit <n>]
+emkit note get    --id <id>
+emkit note create --input <json>        # workspace_id, name, date required
+emkit note update --id <id> --input <json>
+emkit note delete --id <id>
+
+emkit note-type list   --workspace-id <id>
+emkit note-type get    --id <id>
+emkit note-type create --input <json>   # workspace_id, name required
+emkit note-type update --id <id> --input <json>
+emkit note-type delete --id <id>        # fails if notes reference it or it is system-defined
+```
+
+Example:
+
+```bash
+emkit note list --workspace-id 1 --days 14 --limit 20
+emkit note create --input '{
+  "workspace_id": 1,
+  "name": "Weekly staff sync",
+  "date": "2026-04-24",
+  "note_type_id": 2,
+  "content": "## Agenda\n- roadmap"
+}'
+```
+
+#### Inbox
+
+```bash
+emkit inbox create --input <json>       # workspace_id, title required
+```
+
+### People & Performance
+
+#### Feedback
+
+```bash
+emkit feedback list   --workspace-id <id> [--status <to_share|shared|all>] [--limit <n>]
+emkit feedback get    --id <id>
+emkit feedback create --input <json>    # workspace_id, member_id, feedback_type, content required
+```
+
+#### Objectives
+
+```bash
+emkit objective list   --member-id <id>
+emkit objective get    --id <id>
+emkit objective create --input <json>   # member_id, title, period_name, start_date, end_date required
+emkit objective update --id <id> --input <json>
+```
+
+#### One-on-ones
+
+```bash
+emkit one-on-one list --member-id <id>
+emkit one-on-one get  --id <id>
+```
+
+#### Review periods and performance reviews
+
+```bash
+emkit review-period list   --workspace-id <id>
+emkit review-period latest --workspace-id <id>                 # Latest period + summaries
+emkit review-period create --input <json>                      # workspace_id, title, start_date, end_date required
+
+emkit performance-review list   --member-id <id>
+emkit performance-review get    --id <id>
+emkit performance-review create --input <json>                 # member_id, review_period_id required
+emkit performance-review update --id <id> --input <json>       # status, rating, notes
+
+emkit peer-feedback list --review-id <id>
+emkit peer-feedback get  --id <id>
+
+emkit pip list --member-id <id>
+emkit pip get  --id <id>
+```
+
+#### Career path
+
+```bash
+emkit career-path levels            --workspace-id <id>
+emkit career-path update-level      --workspace-id <id> --level-id <id> --input <json>
+emkit career-path skills            --workspace-id <id>
+emkit career-path skill             --workspace-id <id> --skill-id <id>
+emkit career-path create-skill      --workspace-id <id> --input <json>
+emkit career-path update-skill      --workspace-id <id> --skill-id <id> --input <json>
+emkit career-path team-positioning  --workspace-id <id> [--member-id <id>]
+emkit career-path upsert-assessment --member-id <id> --input <json>   # skill_id, skill_level_id required
+```
+
+### Reports
+
+```bash
+emkit report history --workspace-id <id>    # List stored report snapshots
+emkit report get     --report-id <id>
+emkit report delete  --report-id <id>
 ```
 
 ## Troubleshooting
@@ -165,7 +340,7 @@ emkit workspace list --compact
 echo $PATH
 ```
 
-4. Re-run **Refresh** in EM Kit Settings -> Command Line Tool.
+4. Re-run **Refresh** in EM Kit **Settings → Command Line Tool**.
 
 ### Install directory is not writable
 
