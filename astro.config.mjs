@@ -85,7 +85,14 @@ export default defineConfig({
 								{ label: 'Slack', slug: 'guides/integrations/slack' },
 							]
 						},
-						{ label: 'EM Copilot', slug: 'guides/em-copilot' },
+						{
+							label: 'EM Copilot',
+							items: [
+								{ label: 'Overview', slug: 'guides/copilot' },
+								{ label: 'Agents', slug: 'guides/copilot/agents' },
+								{ label: 'Skills', slug: 'guides/copilot/skills' },
+							]
+						},
 						{ label: 'EM Kit CLI', slug: 'guides/emkit-cli' },
 						{ label: 'EM Kit MCP', slug: 'guides/em-kit-mcp' },
 						{ label: 'Data Storage', slug: 'guides/data-storage' }

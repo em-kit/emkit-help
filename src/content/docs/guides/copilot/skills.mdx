@@ -1,0 +1,73 @@
+---
+title: Skills
+description: Reusable, trigger-based recipes that agents invoke for specific tasks.
+---
+
+A **skill** is a reusable recipe — a step-by-step instruction set that an [agent](/guides/copilot/agents/) can invoke for a specific class of task. Skills let you teach EM Copilot how *you* like to do things ("how I prep for a 1:1", "how I draft a perf review") so the agent runs the same playbook every time.
+
+Skills are attached to agents (many-to-many — one skill can power several agents) and are matched against the user's message via **trigger phrases**. When the agent hears a matching phrase, it runs the skill's body as a recipe.
+
+## How skills work
+
+- A skill is **only available through an agent**. Attaching a skill to an agent makes it part of that agent's toolkit.
+- When you send a message to the agent, the agent compares the message against each attached skill's trigger phrases. A match means the skill's body becomes the procedure for that turn.
+- A skill's body is plain markdown — typically numbered steps that reference workspace data (members, work logs, feedback, issues) through the [EM Kit MCP server](/guides/em-kit-mcp/).
+
+## Built-in skills
+
+Every workspace ships with four built-in skills, pre-attached to the agents that benefit from them:
+
+| Skill | Attached to | What it does |
+|-------|-------------|--------------|
+| **1:1 prep** | Coach | Pulls recent work logs, open issues, and feedback for a team member into a 1:1 brief. |
+| **Performance review draft** | Coach, Writer | Drafts a performance review from the review period's data (objectives, feedback, achievements). |
+| **Team health check** | Coach, Researcher | Spots turnover, attrition, and engagement risk signals across the team. |
+| **Career positioning** | Career Advisor | Assesses each team member's career trajectory against their level. |
+
+Built-in skills can be edited and archived but never deleted.
+
+## Configure skills
+
+Open **Settings → Skills** to manage skills.
+
+### Create a new skill
+
+Click **New skill** to open the form:
+
+- **Name** — Short label shown in the agent form's skill picker.
+- **Description** — One-line "when this skill should kick in".
+- **Triggers** — One trigger phrase per line. Whenever an agent that has this skill attached sees a message matching one of these phrases, the skill fires. Use natural language ("prep me for a 1:1", "talking points for a one-on-one").
+- **Body** — Markdown editor. The recipe the agent should follow when the skill fires. Numbered steps and explicit tool references work best.
+
+### Manage existing skills
+
+Each row in the table has actions:
+
+- **Edit** — Open the form. The form shows a **Used by** panel listing every agent the skill is attached to.
+- **Archive / Restore** — Hide a skill without deleting it. Archived skills do not appear in agent pickers.
+- **Delete** — Permanently remove and detach from any agent that referenced it. Built-in skills cannot be deleted.
+
+## Where skills are used
+
+Skills always surface through whichever agent is active. The three places agents are used are therefore the three places skills can fire.
+
+### 1. EM Copilot chat
+
+When the agent picked in the draft bar has skills attached, those skills fire automatically as you chat. Saying "prep me for a 1:1 with Sam" to the **Coach** agent triggers the `1:1 prep` skill, which then pulls the relevant data from the workspace and produces the brief.
+
+### 2. Automations
+
+An [automation](/guides/automations/) inherits its agent's full skill set. A daily automation pointed at the **Coach** agent with a prompt like "Draft 1:1 prep for everyone with a 1:1 today" runs the `1:1 prep` skill on every scheduled execution — same recipe, no manual steps.
+
+### 3. Questions on issues
+
+When you mention an agent on an [issue](/guides/issues/) with **Ask Copilot**, the agent's skills are available while it answers. Mentioning the **Career Advisor** on an issue about a team member's growth plan can invoke the `Career positioning` skill in-thread.
+
+## Writing good skills
+
+A few rules of thumb that make skills reliable:
+
+- **Be specific in triggers.** Add several variations of the phrase you'd actually type. Vague triggers like "help" cause the skill to fire too often.
+- **Write the body as a procedure.** Numbered steps with explicit tool calls beat freeform prose. The agent will follow it more literally than you expect.
+- **Reference real workspace data.** Skills become powerful when they pull from the [EM Kit MCP server](/guides/em-kit-mcp/) — point at members, work logs, feedback, or issues by name.
+- **Keep skills focused.** One skill per task type. If a skill does two things, split it — the trigger phrases will be cleaner.

@@ -1,0 +1,77 @@
+---
+title: Agents
+description: Customizable AI personas used by EM Copilot, automations, and issues.
+---
+
+An **agent** is a customizable AI persona that runs through [EM Copilot](/guides/copilot/). Each agent has its own name, emoji, short label, description, and system prompt, plus an optional set of attached [skills](/guides/copilot/skills/). When you talk to an agent, you're talking to whichever persona you picked — the agent decides tone, focus, and which skills to invoke.
+
+Agents do not carry their own model. They inherit the workspace defaults configured in **Settings → EM Copilot** (provider, default model, reasoning effort). Individual automations can still override the model and effort per run.
+
+## Built-in agents
+
+Every workspace ships with six built-in agents. One is always the workspace **default** (the agent used when you start a new conversation without picking one).
+
+| Agent | Use it for |
+|-------|------------|
+| 🗂️ **Executive Assistant** | Task management, drafting, lookups across workspace data. *Default.* |
+| 🧭 **Coach** | 1:1 prep, feedback conversations, development discussions. |
+| 🥊 **Sparring Partner** | Adversarial review — stress-test ideas, challenge assumptions. |
+| 📈 **Career Advisor** | Growth plans, leveling, promotion readiness. |
+| ✍️ **Writer** | Drafting messages, reviews, announcements. |
+| 🔍 **Researcher** | Synthesis across feedback, work logs, and notes. |
+
+Built-in agents can be edited and archived but never deleted. The workspace default cannot be archived or deleted while it's the default.
+
+## Configure agents
+
+Open **Settings → Agents** to manage agents.
+
+### Create a new agent
+
+Click **New agent** to open the form:
+
+- **Name** — Full name shown in pickers (e.g. "Coach").
+- **Short label** — Compact label prefixed to responses (e.g. "Coach").
+- **Emoji** — Visual identifier shown alongside the name everywhere the agent appears.
+- **Description** — One-line "when to use" hint shown in the agent picker.
+- **Skills** — Optional multi-select of [skills](/guides/copilot/skills/) the agent can invoke.
+- **System prompt** — Markdown editor. The persona, voice, and operating principles the agent should follow on every turn.
+
+Name, short label, and system prompt are required.
+
+### Manage existing agents
+
+Each row in the table has actions:
+
+- **Edit** — Open the form pre-filled with the agent's current values.
+- **Duplicate** — Create a copy as `[Name] (copy)` with all skills attached.
+- **Set as default** — Make this agent the workspace default for new conversations.
+- **Archive / Restore** — Hide an agent without deleting it. Archived agents do not appear in pickers. The current default cannot be archived.
+- **Delete** — Permanently remove. Only available for non-built-in, non-default agents.
+- **Show / Hide archived** — Toggle the table to include archived agents.
+
+## Where agents are used
+
+Agents surface in three places in EM Kit.
+
+### 1. EM Copilot chat
+
+The Copilot drawer has an **agent dropdown** in the draft bar at the bottom. New conversations start with the workspace default agent; pick another one before sending to talk to a different persona. The agent's emoji and short label appear next to each response so you always know who you're talking to.
+
+### 2. Automations
+
+When you create or edit an [automation](/guides/automations/), the **Agent, model and effort** section lets you pick which agent runs the automation. The chosen agent's persona and attached skills apply on every scheduled run, so a `Coach`-agent automation can lean on its `1:1 prep` skill, while a `Researcher`-agent automation produces a different tone for the same prompt.
+
+The agent is required. Model and reasoning effort are optional overrides — leave them empty to inherit the workspace defaults.
+
+### 3. Questions on issues
+
+Open any [issue](/guides/issues/) and click **Ask Copilot** in the top-right of the detail drawer. The dropdown lists every available agent (the default is marked); pick one to insert an `@`-mention into a new comment, then add your question and post the comment.
+
+The mentioned agent reads the issue context (title, description, sub-issues, prior comments) and posts a reply directly in the comment thread. You can keep the conversation going by mentioning an agent again in any follow-up comment.
+
+## Models and reasoning
+
+Agents inherit the workspace AI defaults. To change them, open **Settings → EM Copilot** and adjust **Default model** and **Reasoning effort** — see [EM Copilot](/guides/copilot/#configure-em-copilot) for the full configuration walkthrough.
+
+Per-conversation overrides are available in the Copilot drawer (session-only — they do not persist) and per-automation overrides are saved on each automation. Agent definitions themselves stay model-agnostic.

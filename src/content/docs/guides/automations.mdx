@@ -15,7 +15,7 @@ Automations let you schedule recurring AI-powered tasks within your workspace. D
 
 ## Requirements
 
-Automations use the same AI provider as [EM Copilot](/guides/em-copilot/). Before creating an automation:
+Automations use the same AI provider as [EM Copilot](/guides/copilot/). Before creating an automation:
 
 1. Install **Claude Code** or **Codex CLI** and authenticate in your terminal.
 2. Configure the provider in **Settings → EM Copilot**.
@@ -46,14 +46,15 @@ Pick one or more days of the week and a time. The automation runs at the chosen 
 
 Set a number of hours (1–168). The automation runs repeatedly at that interval.
 
-## Model and reasoning overrides
+## Agent, model, and reasoning
 
-Expand **Model and effort** in the create/edit modal to override the default AI settings for a specific automation:
+Expand **Agent, model and effort** in the create/edit modal to control how the automation runs:
 
-- **Model** — Choose a different AI model than the workspace default.
-- **Reasoning effort** — Set to Low, Medium, High, or Max to control how much the AI "thinks" before responding.
+- **Agent** — Pick the [agent](/guides/copilot/agents/) whose persona and skills the automation should use. The agent is required; the workspace default is selected by default. Switching agents changes both the tone (system prompt) and the available [skills](/guides/copilot/skills/) for every scheduled run.
+- **Model** — Optional. Choose a different AI model than the workspace default.
+- **Reasoning effort** — Optional. Set to Low, Medium, High, or Max to control how much the AI "thinks" before responding.
 
-These are optional — automations use your workspace defaults when not overridden.
+Model and reasoning are optional — automations inherit the workspace defaults when not overridden.
 
 ## Running an automation manually
 
@@ -115,7 +116,7 @@ Automations surface the same structured error messages as the Copilot drawer. Th
 
 | Message | What it means | What to do |
 |---|---|---|
-| "…did not respond within 600s" | Wall-clock timeout hit. | Shorten the prompt, lower reasoning effort, or check that the provider CLI isn't waiting for login. See [EM Copilot troubleshooting](/guides/em-copilot/#claude-code-did-not-respond-within-600s) for the full checklist. |
+| "…did not respond within 600s" | Wall-clock timeout hit. | Shorten the prompt, lower reasoning effort, or check that the provider CLI isn't waiting for login. See [EM Copilot troubleshooting](/guides/copilot/#claude-code-did-not-respond-within-600s) for the full checklist. |
 | "…is not authenticated" | The provider CLI lost its session. | Run `claude login` or `codex login` in your terminal. |
 | "…stopped at the max-turns limit" | The AI used its full tool-call budget without producing a final answer. | Simplify the prompt or raise the limit in your Claude Code config. |
 | "…returned an empty response" | The CLI exited cleanly but produced no text. | Re-run the automation; if it recurs, check provider status in **Settings → EM Copilot**. |
