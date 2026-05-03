@@ -1,12 +1,12 @@
 ---
 title: Automations
-description: Schedule recurring AI-powered tasks that run against your workspace data.
+description: Run AI-powered tasks against your workspace data — on a schedule or on demand.
 ---
 
 import { Picture } from 'astro:assets';
 import CreateAutomationImage from '@assets/screenshots/emkit-create-automation.png';
 
-Automations let you schedule recurring AI-powered tasks within your workspace. Define a prompt, pick a schedule, and EM Kit runs it automatically — producing reports, summaries, or alerts using your workspace data and connected integrations.
+Automations let you run AI-powered tasks within your workspace. Define a prompt, pick a trigger — a recurring schedule or a manual **Run now** button — and EM Kit executes it using your workspace data and connected integrations to produce reports, summaries, or alerts.
 
 <Picture 
     src={CreateAutomationImage} 
@@ -34,17 +34,32 @@ The Automations page has three tabs:
 2. Fill in the form:
    - **Name** — A short label for the automation.
    - **Prompt** — The instruction the AI will execute. Reference your workspace data, integrations, or anything the [EM Kit MCP server](/em-kit-mcp/) exposes.
-   - **Schedule mode** — Choose **Weekly** or **Interval**.
-   - **Enabled** — Toggle the automation on or off.
+   - **Trigger** — Choose **Schedule** for recurring runs or **Manual** for on-demand only. See below.
+   - **Schedule mode** *(Schedule trigger only)* — Choose **Weekly** or **Interval**.
+   - **Enabled** *(Schedule trigger only)* — Toggle the automation on or off.
 3. Click **Create**.
 
-### Weekly schedule
+### Schedule trigger
+
+Schedule-triggered automations run on a recurring cadence while the EM Kit desktop app is open.
+
+#### Weekly schedule
 
 Pick one or more days of the week and a time. The automation runs at the chosen time on each selected day, in your local timezone.
 
-### Interval schedule
+#### Interval schedule
 
 Set a number of hours (1–168). The automation runs repeatedly at that interval.
+
+### Manual trigger
+
+Manual automations have no schedule and never run on their own. They sit idle until you click **Run now** — either from the row in the **Workspace Automations** tab or from inside the edit modal. Use this when:
+
+- The work is bursty or context-dependent (e.g. "draft a recap for the project we just shipped").
+- You want a saved prompt + agent + model combo you can re-fire on demand without retyping it.
+- The cadence isn't predictable enough to commit to a schedule.
+
+Manual automations are always considered enabled; the **Enabled** toggle is hidden because there is no scheduler to gate.
 
 ## Agent, model, and reasoning
 
@@ -58,11 +73,16 @@ Model and reasoning are optional — automations inherit the workspace defaults 
 
 ## Running an automation manually
 
-Open an existing automation and click **Run now** to execute it immediately, regardless of its schedule. Manual runs are tagged as "manual" in the history.
+Every automation — whether its trigger is **Schedule** or **Manual** — can be fired on demand:
+
+- **From the list** — Click the **Run now** button on the right side of the automation's row in the **Workspace Automations** tab.
+- **From the edit modal** — Open the automation and click **Run now** at the bottom of the modal.
+
+Manually triggered runs are tagged as `manual` in the history (versus `schedule` for runs the scheduler started).
 
 ## Enabling and disabling
 
-Toggle the **Enabled** switch in the edit modal to pause or resume an automation without deleting it. Disabled automations keep their configuration and history but will not run on schedule.
+The **Enabled** toggle applies to **Schedule**-triggered automations only. Toggle it off to pause an automation without deleting it; the configuration and history are preserved but the scheduler will skip it. Manual automations don't have an Enabled toggle — they only run when you click **Run now**, so there's nothing to pause.
 
 ## History
 
@@ -104,7 +124,7 @@ Click **Use template** to pre-fill the creation form with the template's name, p
 
 ### Automation shows "Paused" in the next run column
 
-The automation is disabled. Open it and toggle **Enabled** on.
+The automation has a **Schedule** trigger but is disabled. Open it and toggle **Enabled** on. (If the column instead shows `—`, the trigger is **Manual** by design — there's no next run because it only runs on demand.)
 
 ### Automation fails with an error
 
@@ -123,5 +143,6 @@ Automations surface the same structured error messages as the Copilot drawer. Th
 
 ### No runs appear in history
 
-1. Confirm the automation is enabled and has a valid schedule.
-2. Make sure the EM Kit desktop app is running — the scheduler only runs while the app is open.
+1. For **Schedule** triggers, confirm the automation is enabled and has a valid schedule.
+2. For **Manual** triggers, history only fills in once you click **Run now** at least once.
+3. Make sure the EM Kit desktop app is running — the scheduler only runs while the app is open.
