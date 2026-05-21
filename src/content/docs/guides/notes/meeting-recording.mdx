@@ -1,0 +1,147 @@
+---
+title: Meeting Recording
+description: Record meetings, get a transcript, and summarize it — fully local or via AssemblyAI.
+---
+
+EM Kit can record the audio of any meeting attached to a note, transcribe it, and turn the transcript into a summary. The recorder sits at the top of every 1:1, Daily Meeting, and Custom Note, so you can capture the conversation without leaving the page.
+
+Recordings are stored locally next to your database, and you choose whether transcription stays on your machine (whisper.cpp) or runs in the cloud (AssemblyAI).
+
+## Where the recorder lives
+
+The recorder is mounted on every note that benefits from a conversation:
+
+- [One-on-One](/guides/notes/one-on-one) notes.
+- [Daily Meeting](/guides/notes/daily-meeting) notes.
+- [Custom Notes](/guides/notes/custom-notes).
+
+You'll see a thin bar above the note content with a **Record meeting** button, the active engine label, and a quick toggle between audio sources.
+
+## Record a meeting
+
+1. Open a note where you want to record the conversation.
+2. Pick the audio source on the right of the bar — **mic** or **mic+sys** (see below).
+3. Click **Record meeting**. A live waveform and elapsed timer appear.
+4. Click **Stop recording** when the meeting ends, or **Discard** to throw the recording away.
+
+After you stop, the audio is finalized to disk and queued for transcription. Progress is reported live — first an "uploading" phase, then "transcribing" with a percentage.
+
+When transcription finishes, a card appears under the bar with the status, duration, file size, detected language, and an expandable transcript.
+
+## Audio sources
+
+The toggle on the right of the recorder bar switches between two capture modes:
+
+| Source | What it captures | Notes |
+|---|---|---|
+| `mic` | Microphone only | Most reliable across operating systems. Best for in-person meetings or when remote participants are heard through your speakers via a headset mic. |
+| `mic+sys` | Microphone + system audio | Captures both your voice and the audio coming out of your computer (Zoom, Meet, Teams, etc.). Requires extra OS permission — see below. |
+
+You can change the **default audio source** in **Settings → Recording** so new recordings start with your preferred mode.
+
+## Transcription engines
+
+EM Kit ships with two transcribers. Pick one in **Settings → Recording → Transcriber**.
+
+### whisper.cpp (local)
+
+Runs entirely on your machine. No audio leaves the device.
+
+- Install the binary once with `brew install whisper-cpp`, or point **Custom binary path** at an existing install.
+- Pick a **model** — larger models are more accurate but slower and use more disk. Models are downloaded on demand into `userData/whisper/models/`.
+- The first transcription will fetch the selected model automatically; you can also click **Download now** from Settings to grab it ahead of time.
+
+### AssemblyAI (cloud)
+
+Sends audio to AssemblyAI's API and returns a transcript. Faster and often more accurate, but the recording leaves your device.
+
+1. Create a free AssemblyAI account — new accounts include free credit (≈ 100 hours of transcription).
+2. Open the **API Keys** page in their dashboard and copy your key.
+3. Paste it into **Settings → Recording → AssemblyAI API key** and click **Save**.
+
+Choose between Universal-3 Pro (most accurate, 6 languages) and Universal-2 (broadest language coverage, lowest cost) in the **Model** dropdown.
+
+:::caution
+With AssemblyAI selected, every recording you transcribe is uploaded to their servers. Switch to whisper.cpp if you need fully local transcription.
+:::
+
+### Language
+
+By default the engine auto-detects the spoken language. Set **Language hint** in Settings to a code like `en`, `fr`, or `es` to force a specific language — useful for short recordings where auto-detection can be noisy.
+
+## Permissions
+
+The recorder needs OS-level permissions to access your microphone and (optionally) your screen audio. **Settings → Recording → Permissions** shows the current status and offers buttons to request access.
+
+### Microphone
+
+Required for any recording. The first time you click **Record meeting**, the OS will prompt you to grant access. If you previously denied it, open System Settings → Privacy & Security → Microphone and enable EM Kit.
+
+### Screen & system audio recording (macOS only)
+
+Required when the audio source is **mic+sys**. macOS only adds an app to the Screen Recording list once it has attempted a capture — so the first time, the recorder will trigger a capture, fail with a "permission denied" error, and open System Settings for you.
+
+1. In **Settings → Recording**, click **Trigger prompt** under "Screen & system audio recording".
+2. Enable EM Kit in the Screen & System Audio Recording list.
+
+   :::note
+   In dev mode the entry is labeled **Electron**, not "EM Kit".
+   :::
+
+3. **Quit EM Kit fully (⌘Q) and relaunch** — macOS only re-reads the permission on launch.
+
+If you change source to `mic+sys` and the permission is missing, the recorder will open System Settings automatically and show a banner reminding you to relaunch the app.
+
+## Summarize the transcript
+
+Each completed recording card has a **Summarize** button. Click it to send the transcript to your configured AI provider and get a short summary of the meeting — decisions made, action items, blockers — that you can paste into the note.
+
+The summary uses the same provider configured for the rest of EM Kit's AI features. See the [EM Copilot guide](/guides/copilot/) for setup.
+
+## Manage recordings
+
+Every recording attached to a note is listed below the recorder bar with its status:
+
+| Status | Meaning |
+|---|---|
+| `recording` | Capture in progress. |
+| `captured` | Audio is saved, waiting to be transcribed. |
+| `transcribing` | The engine is running. |
+| `completed` | Transcript is ready. |
+| `error` | Transcription failed — click the retry icon to try again. |
+| `canceled` | You discarded the recording before it finished. |
+
+From each card you can:
+
+- **Show transcript** — expand the full text inline.
+- **Summarize** — generate an AI summary (see above).
+- **Retry** — re-run transcription if it errored or stalled. Useful after changing engine or model.
+- **Delete** — remove both the database row and the audio file from disk.
+
+## Where files are stored
+
+Recordings are local-first, just like the rest of EM Kit:
+
+- Audio files live next to the database, under `meeting-recordings/` in the active data directory.
+- Transcripts, summaries, and metadata are stored in the SQLite database.
+- Whisper models live under `whisper/models/` in the same data directory.
+
+See [Data Storage](/guides/data-storage) for the exact path on your OS and how to back up or move your data.
+
+## Troubleshooting
+
+### "whisper.cpp executable not found"
+
+Install it with `brew install whisper-cpp`, or set **Custom binary path** in Settings to the absolute path of an existing binary.
+
+### "Model not downloaded"
+
+Click **Download now** in **Settings → Recording → Transcription engine**, or just start a recording — the model is fetched automatically on first use.
+
+### "macOS blocked screen capture"
+
+The recorder needs Screen & System Audio Recording permission for `mic+sys`. Follow the steps under [Permissions](#screen--system-audio-recording-macos-only), making sure to quit and relaunch EM Kit after enabling the permission.
+
+### Recording finished but the transcript is empty
+
+The engine didn't find any speech in the audio. Check the audio source (you may have selected `mic+sys` but no system audio was playing), and that your microphone wasn't muted. You can click the retry icon to re-run transcription on the same audio file.

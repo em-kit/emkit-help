@@ -1,0 +1,100 @@
+---
+title: Calendar
+description: Connect EM Kit to your calendar to surface upcoming meetings and link 1:1s to calendar events.
+---
+
+The Calendar integration reads your meetings so EM Kit can show what's coming up on the **Home** page and link **1:1 notes** to the actual calendar events they belong to.
+
+## What the integration powers
+
+- **Home -> Coming up** — a list of the next meetings on your calendar, grouped by day. 1:1s with team members are detected automatically and get a **Prepare 1:1** action.
+- **One-on-One notes** — each 1:1 has a panel where you can link or unlink the calendar event the meeting comes from, jump to Google Meet, or open the event in your calendar app.
+- **Auto-fill** — when you start a 1:1 from a calendar event, the note is pre-populated with the meeting date and linked to the event automatically.
+
+## Connection modes
+
+EM Kit supports two ways to read your calendar. Pick the one that matches your setup:
+
+### macOS Calendar (EventKit) — recommended on Mac
+
+Reads any account already configured in macOS **Calendar.app** — Google, iCloud, Exchange, etc. No accounts to create, no URLs to manage. On first connect, macOS will ask you to grant Calendar access to EM Kit.
+
+### Private iCal URL — cross-platform
+
+Paste the **secret iCal address** of a single calendar. Works on any platform, read-only. Use this if you're not on macOS or if you want to subscribe to one specific calendar.
+
+To find the URL in Google Calendar: open **Settings**, pick the calendar, and copy the **Secret address in iCal format**. Treat this URL like a password — anyone with it can read your events.
+
+## Configure the integration
+
+1. Open **Settings -> Integrations**.
+2. Click **Settings** on the **Calendar** card.
+3. Under **Choose how to connect**, pick **macOS Calendar (EventKit)** or **Private iCal URL**.
+4. For iCal, paste the URL in the **iCal URL** field.
+5. Click **Connect macOS Calendar** or **Connect iCal URL**.
+6. Once connected, the drawer shows a **Calendars** list. Tick the calendars you want EM Kit to read.
+7. Click **Sync events** to pull events into the local cache.
+
+Newly discovered calendars are selected by default so a first sync just works. Each selected calendar displays the number of events it contributed to the last sync.
+
+The Home widget will also trigger a quiet auto-sync when the last sync is older than 5 minutes, so you usually don't have to hit **Sync events** manually.
+
+## How 1:1s are detected from calendar events
+
+EM Kit only marks an event as a 1:1 when **exactly one** of the other attendees matches a team member's email — and there are **no other external attendees**. A team meeting that happens to include one of your reports is not treated as a 1:1.
+
+When an event qualifies, the Home **Coming up** list shows:
+
+- A primary **Prepare 1:1** button if no note exists yet — clicking it creates a new 1:1 note for that member, pre-filled with the event's date and time, and links the note to the event.
+- An **Open 1:1** button instead, if you've already created and linked a 1:1 to that event.
+
+Recurring meetings are kept as separate occurrences — a daily or weekly 1:1 will appear once per occurrence, each with its own **Prepare 1:1** action. Linking one occurrence does not link the rest.
+
+## Link a 1:1 to a calendar event from the 1:1 page
+
+If you created a 1:1 by hand (or before the calendar was connected), you can attach it to a calendar event afterwards:
+
+1. Open the 1:1 note from **My Team -> {member} -> One-on-Ones**.
+2. At the top of the note, find the **calendar event** panel. If nothing is linked yet, it reads "No calendar event linked to this 1:1."
+3. Click **Link calendar event**.
+4. Pick an event from the list — the picker shows the member's events in a ±30-day window.
+5. Click **Link**.
+
+Once linked, the panel shows the event title and time, plus quick actions:
+
+- A **video** button to join the meeting (when the event has a Google Meet link).
+- A **link** button to open the event in your calendar app.
+- An **Unlink** button to remove the link without deleting the note.
+
+If the calendar event is later deleted, the link stays but the panel shows a **Removed from calendar** tag so you know the source event is gone.
+
+## Hidden events
+
+EM Kit hides events from the Home widget that wouldn't be useful to prep for — cancelled invites, declined invites, all-day "free" blocks, and OOO / focus time / working-location entries. A "**N hidden**" tag in the header surfaces the count; hover it to see the breakdown.
+
+## Privacy
+
+Calendar data stays on your machine. EM Kit reads events through your local Mac (EventKit) or fetches the iCal URL directly — no events ever go through EM Kit servers. See [Data Storage](/guides/data-storage/) for the full picture.
+
+## Troubleshooting
+
+### "Connect macOS Calendar" is disabled
+
+EventKit is only available on macOS. On other platforms, switch to **Private iCal URL**.
+
+### macOS doesn't show the Calendar permission prompt
+
+In development builds, the Electron.app bundle lacks the EventKit entitlement and macOS suppresses the prompt. Packaged builds work normally — install EM Kit from a released `.dmg` rather than running from source.
+
+### A meeting that should be a 1:1 doesn't show "Prepare 1:1"
+
+Check that:
+
+- The team member's email in **My Team -> {member}** matches the email the invite was sent to.
+- The event has **exactly one** non-self attendee. Invites that include note-takers, additional managers, or recruiting partners won't be detected as 1:1s.
+- The calendar containing the event is **ticked** under **Settings -> Integrations -> Calendar -> Calendars**.
+- A recent sync has happened — check **Last sync** at the bottom of the Home widget.
+
+### The 1:1 link picker says "No calendar events found for this person"
+
+The picker only searches the local cache for the last 30 / next 30 days. Open **Settings -> Integrations -> Calendar** and click **Sync events**, then try again.

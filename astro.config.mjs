@@ -51,6 +51,7 @@ export default defineConfig({
 								{ label: 'One-on-One', slug: 'guides/notes/one-on-one' },
 								{ label: 'Daily Meeting', slug: 'guides/notes/daily-meeting' },
 								{ label: 'Custom Notes', slug: 'guides/notes/custom-notes' },
+								{ label: 'Meeting Recording', slug: 'guides/notes/meeting-recording' },
 							]
 						},
 						{ label: 'Work Log', slug: 'guides/work-log' },
@@ -83,6 +84,7 @@ export default defineConfig({
 								{ label: 'GitHub', slug: 'guides/integrations/github' },
 								{ label: 'Jira', slug: 'guides/integrations/jira' },
 								{ label: 'Slack', slug: 'guides/integrations/slack' },
+								{ label: 'Calendar', slug: 'guides/integrations/calendar' },
 							]
 						},
 						{
