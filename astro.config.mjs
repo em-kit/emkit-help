@@ -1,14 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
-	site: 'https://help.emkit.app',
-	vite: {
+    site: 'https://help.emkit.app',
+
+    vite: {
 		ssr: {
 			external: ['prismjs'],
 		},
 	},
-	integrations: [
+
+    integrations: [
 		starlight({
 			components: {
 				PageFrame: './src/components/PageFrame.astro',
@@ -111,4 +114,6 @@ export default defineConfig({
 			],
 		}),
 	],
+
+    adapter: cloudflare()
 });
