@@ -248,6 +248,17 @@ Read-write tools are annotated so MCP clients can prompt for confirmation before
 | --- | --- | --- |
 | `emkit_create_inbox_item` | Create an inbox item for the engineering manager to review (suggestion, action, or info). Supports `dedup_key` to avoid duplicates. | Write |
 
+### Knowledge graph and synthesis
+
+These tools turn EM Kit's data into a queryable graph instead of forcing the agent to stitch together many separate list/get calls. `emkit_get_member_neighborhood` and `emkit_synthesize_member_brief` are the fastest way to prepare for a 1:1 — they gather everything linked to a person, surface notes that merely *mention* them, and flag blind spots (stale cadence, untouched at-risk objectives, unshared feedback) the same way they answer the question.
+
+| Tool | Description | Type |
+| --- | --- | --- |
+| `emkit_search` | Full-text keyword search across notes, objectives, feedback, and work-log entries (BM25-ranked, with snippets). The fast "raw retrieval" mode. | Read |
+| `emkit_get_member_neighborhood` | Return everything known about one member in a single call — recent 1:1s, open action items across all past 1:1s, objectives + key results, feedback, recent work-log contributions, open issues, and notes that mention them — plus a deterministic gap analysis. | Read |
+| `emkit_graph_query` | Multi-hop graph query: the team members most often co-mentioned with a given member across notes, feedback, and work-log entries. | Read |
+| `emkit_synthesize_member_brief` | Compose a cited 1:1-prep brief (Summary / Discuss / Heads-up) from a member's full context, ending with an honest note on what the records don't show. Requires an AI provider (Claude Code or Codex CLI) configured in Settings. | Read |
+
 ## Example prompts
 
 Once connected, ask the agent to use EM Kit tools explicitly:
@@ -262,6 +273,10 @@ Use emkit_list_issues on workspace 1 (status todo,in_progress) and draft a stand
 
 ```text
 Use emkit_get_latest_review_period on workspace 1 and flag any member whose review is still in preparation.
+```
+
+```text
+Use emkit_synthesize_member_brief for member 5 in workspace 1 to prepare me for our next 1:1, then list any blind spots it flags.
 ```
 
 ## Troubleshooting

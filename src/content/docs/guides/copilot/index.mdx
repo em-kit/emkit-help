@@ -39,6 +39,10 @@ The status table below the form shows each provider's installation status, execu
 
 Claude Code is always invoked in fast non-interactive `--print` mode. EM Kit merges its own MCP server with your user-scope Claude MCP configuration, so any **Claude Code connector** you registered with `claude mcp add -s user …` (Slack, Atlassian, Notion, etc.) is automatically available to the Copilot. Run `claude mcp list` in a terminal to see which connectors Claude currently has access to.
 
+### Controlling cost
+
+EM Kit tracks the token usage of every AI action and turns it into an estimated cost, with an optional hard monthly budget that blocks new AI calls once reached. See [Usage & Cost](/guides/copilot/usage-cost/) for the full breakdown.
+
 ## Using the assistant
 
 Once configured, click the **Copilot** button in the top-right corner of the app to open the assistant drawer.

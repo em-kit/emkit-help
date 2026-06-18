@@ -93,6 +93,7 @@ export default defineConfig({
 								{ label: 'Overview', slug: 'guides/copilot' },
 								{ label: 'Agents', slug: 'guides/copilot/agents' },
 								{ label: 'Skills', slug: 'guides/copilot/skills' },
+								{ label: 'Usage & Cost', slug: 'guides/copilot/usage-cost' },
 							]
 						},
 						{ label: 'EM Kit CLI', slug: 'guides/emkit-cli' },

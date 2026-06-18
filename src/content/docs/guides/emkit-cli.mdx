@@ -146,6 +146,26 @@ emkit db query --sql 'SELECT id, name FROM workspaces LIMIT 10'
 emkit db exec --sql 'UPDATE workspaces SET name = ? WHERE id = ?' --params '["Platform",1]'
 ```
 
+### Knowledge graph and synthesis
+
+```bash
+emkit search --workspace-id <id> --query <text> [--limit <n>]   # Keyword search across notes, objectives, feedback, work log
+
+emkit graph neighborhood --member-id <id>                       # Everything known about a member (bundle + gaps)
+emkit graph co-mentions  --workspace-id <id> --member-id <id> [--limit <n>]  # Members co-mentioned with this person
+emkit graph reindex      --workspace-id <id>                     # Rebuild self-wiring mention edges for a workspace
+
+emkit brief --workspace-id <id> --member-id <id> [--question <text>]   # Synthesize a cited 1:1-prep brief with gap analysis (AI)
+```
+
+Example:
+
+```bash
+emkit search --workspace-id 1 --query "pricing"
+emkit graph neighborhood --member-id 5
+emkit brief --workspace-id 1 --member-id 5 --question "what should I cover in our next 1:1?"
+```
+
 ### Workspace
 
 ```bash

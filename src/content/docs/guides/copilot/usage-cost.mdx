@@ -1,0 +1,82 @@
+---
+title: AI Usage & Cost
+description: Track estimated AI spend and set a hard monthly budget for EM Copilot, insights, and automations.
+---
+
+EM Kit tracks how much AI you use and turns it into an **estimated cost**, so you can keep an eye on spend and cap it with a hard monthly budget. Everything lives under **Settings → AI usage & cost** and is scoped to the current workspace.
+
+Because EM Copilot runs through a local CLI — **Claude Code** or **Codex CLI** — that authenticates with your own account, the dollar figures are **estimates** derived from public per-token list prices. If you are on a flat subscription, treat them as a usage signal rather than an exact invoice, and adjust the rates to match your plan.
+
+## How usage is tracked
+
+Every AI action in EM Kit records its token usage when it completes — there is nothing to switch on. This covers:
+
+- **Copilot chat** — conversations in the assistant drawer
+- **Workspace insights** — generated manager insights
+- **Member briefs** — the "prep me for a 1:1" synthesis
+- **Meeting summaries** — transcribed meeting summaries
+- **Automations** — scheduled and manual automation runs
+
+Tracking is **forward-only**: usage is recorded from the moment you update to this version, so the overview starts empty and fills in as you work.
+
+:::note
+**Claude Code** reports token counts (including cached input), so its calls are fully priced. **Codex CLI** does not report token usage, so those calls are counted but excluded from the cost estimate. When this happens, the overview shows a "some usage isn't priced" notice.
+:::
+
+## The overview
+
+Use the range selector in the top-right to switch between **This month**, **Last 30 days**, and **All time**. The page then shows:
+
+- **Estimated cost** for the selected range, plus total **calls**, **input tokens** (with how many were cached), and **output tokens**.
+- A **cost-by-day** chart for the selected range.
+- A **breakdown** table you can view **by feature**, **by model**, or **by provider**. Sort any column to find what is driving spend.
+
+## Estimated rates
+
+Cost is calculated from token usage and an editable table of per-model rates, in **US dollars per million tokens (MTok)**. Each model family has three rates: standard **input**, **cached input** (cheaper reads of repeated context), and **output**.
+
+The built-in defaults are:
+
+| Model family   | Input ($/MTok) | Cached input ($/MTok) | Output ($/MTok) |
+| -------------- | -------------: | --------------------: | --------------: |
+| Claude Opus    |          15.00 |                  1.50 |           75.00 |
+| Claude Sonnet  |           3.00 |                  0.30 |           15.00 |
+| Claude Haiku   |           0.80 |                  0.08 |            4.00 |
+| OpenAI GPT-5   |           1.25 |                 0.125 |           10.00 |
+
+To change a rate:
+
+1. Open **Settings → AI usage & cost** and scroll to **Estimated rates**.
+2. Edit any input, cached-input, or output value.
+3. Click **Save rates**.
+
+Cost is always derived from the **current** rates, so editing them recalculates your entire history — there are no figures frozen at the time of each call. Click **Reset to defaults** to discard your overrides and return to the built-in prices.
+
+## Monthly budget (hard limit)
+
+Set a budget to put a hard ceiling on AI spend for the workspace.
+
+1. Open **Settings → AI usage & cost** and find **Monthly budget**.
+2. Enter a dollar amount under **Hard limit** and click **Save budget**.
+
+Once a budget is set, EM Kit shows a progress bar of estimated **month-to-date** spend against the limit, and warns you when you pass **80%**.
+
+:::caution
+When estimated spend for the current calendar month reaches the limit, EM Kit **blocks new AI calls** — Copilot chat, insights, briefs, meeting summaries, and automations all stop until you act. In-progress requests are unaffected; only new ones are blocked.
+:::
+
+To resume, either raise the limit or click **Remove limit**. The budget resets automatically at the start of each calendar month.
+
+## Troubleshooting
+
+### "Monthly AI budget reached"
+
+You have hit your hard limit for the current month. Open **Settings → AI usage & cost** and either raise the **Hard limit** or click **Remove limit**. The limit resets on the first of the next month.
+
+### The cost looks too high or too low
+
+The estimate is only as accurate as the rates. Open **Estimated rates** and adjust them to match your actual plan, or **Reset to defaults**. Remember that cached input is billed at a fraction of standard input, which is why heavy Copilot use can stay cheaper than the raw token counts suggest.
+
+### Some usage shows no cost
+
+Calls on an unrecognized model — or made through a provider that doesn't report token counts, such as Codex CLI — are counted but cannot be priced, so they appear with a `$0.00` estimate and trigger the "some usage isn't priced" notice.
